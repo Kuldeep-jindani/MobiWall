@@ -16,6 +16,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import mobiwall.entwickler.pro.com.mobiwall.Preview_daily;
 import mobiwall.entwickler.pro.com.mobiwall.R;
 
 
@@ -66,12 +67,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent intent = new Intent(view.getContext(),Preview_daily.class);
+                Intent intent = new Intent(view.getContext(),Preview_daily.class);
 //                intent.putExtra("img_url", grid_model.getImg_url());
 
                 intent.putExtra("grid",grid_models);
                 intent.putExtra("pos",position);
-                c.startActivity(intent);*/
+                c.startActivity(intent);
             }
         });
 

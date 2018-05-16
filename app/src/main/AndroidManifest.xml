@@ -28,5 +28,8 @@
     </activity>
         <activity android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Preview_daily"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:largeHeap="true" />
     </application>
 </manifest>

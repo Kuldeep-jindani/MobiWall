@@ -109,7 +109,7 @@ public class Paginator {
                                 JSONObject o = (JSONObject) array.get(i);
                                     Grid_model grid_model = new Grid_model();
                                     grid_model.setId(o.getInt("id"));
-                                    grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/thumb/" +o.getString("photo"));
+                                    grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" +o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));
