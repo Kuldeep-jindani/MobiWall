@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack("Dashboard");
                 fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();
             }
         });

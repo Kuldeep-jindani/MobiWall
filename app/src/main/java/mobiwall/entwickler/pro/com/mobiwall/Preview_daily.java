@@ -49,9 +49,12 @@ public class Preview_daily extends AppCompatActivity {
     String App_ID = "ca-app-pub-3940256099942544/6300978111";
     //AdView adView;
 
-    ImageView download,set_as_bcgrnd,unliked;
+    ImageView download, set_as_bcgrnd, unliked;
+
+    int click = 0;
 
     InterstitialAd mInterstitialAd;
+
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +74,45 @@ public class Preview_daily extends AppCompatActivity {
         final ImageAdapter adapter = new ImageAdapter(this, grid_models);
 
 
+        mInterstitialAd = new InterstitialAd(this);
+
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
+
+        AdRequest adRequest1 = new AdRequest.Builder()
+                .build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest1);
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+
+            }
+        });
+
+
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Grid_model grid_model=grid_models.get(viewPager.getCurrentItem());
+                Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
                 new DownloadFile(grid_model).execute(grid_model.getImg_url());
+                Log.e("click bit", String.valueOf(click));
+                if (click == 0) {
+                    showInterstitial();
+                    click++;
+                }
             }
         });
         set_as_bcgrnd.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View view) {
-                final Grid_model grid_model=grid_models.get(viewPager.getCurrentItem());
+                Log.e("click bit", String.valueOf(click));
+                if (click == 0) {
+                    showInterstitial();
+                    click++;
+                }
+                final Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
                 final KProgressHUD hud = KProgressHUD.create(Preview_daily.this)
                         .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                         .setCancellable(true)
@@ -99,7 +129,7 @@ public class Preview_daily extends AppCompatActivity {
                                 = WallpaperManager.getInstance(getApplicationContext());
                         try {
 
-                            Log.e("data",grid_model.getImg_url());
+                            Log.e("data", grid_model.getImg_url());
                             Bitmap result;
                             result = Picasso.get()
                                     .load(grid_model.getImg_url())
@@ -118,7 +148,7 @@ public class Preview_daily extends AppCompatActivity {
                     protected void onPostExecute(ImageView imageView) {
                         super.onPostExecute(imageView);
                         Toast.makeText(getApplicationContext(), "Image set as wallpaper.", Toast.LENGTH_SHORT).show();
-                        Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "http://themeelite.com/ananta/set_as_wallpaper?image_id="+ grid_model.getId()+"&device_id="+ Settings.Secure.getString(getContentResolver(),
+                        Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "http://themeelite.com/ananta/set_as_wallpaper?image_id=" + grid_model.getId() + "&device_id=" + Settings.Secure.getString(getContentResolver(),
                                 Settings.Secure.ANDROID_ID), new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -138,7 +168,13 @@ public class Preview_daily extends AppCompatActivity {
         unliked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Grid_model grid_model=grid_models.get(viewPager.getCurrentItem());
+                if (click == 0) {
+
+                    showInterstitial();
+
+                    click++;
+                }
+                Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
                /* if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.liked));
 
@@ -198,22 +234,6 @@ public class Preview_daily extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
        adView.loadAd(adRequest);*/
 
-     /*   mInterstitialAd = new InterstitialAd(this);
-
-        // set the ad unit ID
-        mInterstitialAd.setAdUnitId( getString(R.string.interstial));
-
-        AdRequest adRequest1 = new AdRequest.Builder()
-                .build();
-
-        // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest1);
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                showInterstitial();
-            }
-        });*/
 
 
 
@@ -268,22 +288,22 @@ public class Preview_daily extends AppCompatActivity {
 
     private void showInterstitial() {
         if (mInterstitialAd.isLoaded()) {
-             mInterstitialAd.show();
+            mInterstitialAd.show();
         }
     }
 
-    public void like(Grid_model grid_model, int i){
+    public void like(Grid_model grid_model, int i) {
 
 //        final String url="http://charmhdwallpapers.com/wallpaper/fav?favourite="+i+"&image_id="+grid_model.getId()+"&device_id="+ Settings.Secure.getString(this.getContentResolver(),
 //                Settings.Secure.ANDROID_ID);
 
-        final String url="http://themeelite.com/ananta/image_details?image_id="+ grid_model.getId()+"&device_id="+ Settings.Secure.getString(getContentResolver(),
+        final String url = "http://themeelite.com/ananta/image_details?image_id=" + grid_model.getId() + "&device_id=" + Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("like url",url);
-                Log.e("like response",response);
+                Log.e("like url", url);
+                Log.e("like response", response);
 
             }
         }, new Response.ErrorListener() {
@@ -301,8 +321,9 @@ public class Preview_daily extends AppCompatActivity {
         KProgressHUD hud;
 
         Grid_model grid_model;
+
         public DownloadFile(Grid_model grid_model) {
-        this.grid_model=grid_model;
+            this.grid_model = grid_model;
         }
 
         @Override
@@ -313,7 +334,7 @@ public class Preview_daily extends AppCompatActivity {
             mProgressDialog.setCancelable(true);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.show(); */
-            hud=KProgressHUD.create(Preview_daily.this)
+            hud = KProgressHUD.create(Preview_daily.this)
                     .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                     .setLabel("Please wait")
                     .setDetailsLabel("Downloading data")
@@ -375,7 +396,7 @@ public class Preview_daily extends AppCompatActivity {
             super.onPostExecute(aLong);
             hud.dismiss();
             Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
-            Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "http://themeelite.com/ananta/download_count?image_id="+ grid_model.getId()+"&device_id="+ Settings.Secure.getString(getContentResolver(),
+            Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "http://themeelite.com/ananta/download_count?image_id=" + grid_model.getId() + "&device_id=" + Settings.Secure.getString(getContentResolver(),
                     Settings.Secure.ANDROID_ID), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {

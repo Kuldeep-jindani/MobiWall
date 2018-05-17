@@ -4,35 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-    <EditText
-        android:id="@+id/search_text"
-        android:layout_weight="1"
-        android:textColor="@color/colorBlack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:hint="search"
-        />
-        <Button
-            android:id="@+id/btn_go"
-            android:layout_margin="15dp"
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
             android:layout_height="wrap_content"
-            android:text="Go"
-            />
-    </LinearLayout>
-    <!-- TODO: Update blank fragment layout -->
-    <com.srx.widget.PullToLoadView
-        android:id="@+id/wallpaper_grid_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_black"
+                android:padding="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="search"
+                android:textColorHint="@color/colorPrimary"
+                android:textColor="@color/colorBlack" />
+
+            <Button
+                android:id="@+id/btn_go"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content"
+                android:text="Search" />
+        </LinearLayout>
+        <!-- TODO: Update blank fragment layout -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/wallpaper_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 </FrameLayout>

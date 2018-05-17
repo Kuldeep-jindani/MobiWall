@@ -2,6 +2,8 @@ package mobiwall.entwickler.pro.com.mobiwall;
 
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +18,16 @@ import mobiwall.entwickler.pro.com.mobiwall.paginator.Paginator_search;
 
 
 public class SearchFragment extends Fragment {
-    PullToLoadView pullToLoadView;
+//    PullToLoadView pullToLoadView;
+    RecyclerView pullToLoadView;
     EditText string;
     Button go;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_search, container, false);
-        pullToLoadView = view.findViewById(R.id.wallpaper_grid_search);
+        pullToLoadView = view.findViewById(R.id.wallpaper_search);
         string = view.findViewById(R.id.search_text);
         go = view.findViewById(R.id.btn_go);
         go.setOnClickListener(new View.OnClickListener() {

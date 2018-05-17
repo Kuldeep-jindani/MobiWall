@@ -45,6 +45,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public  void add(Grid_model grid_model)
     {
         grid_models.add(grid_model);
+        notifyDataSetChanged();
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.srx.widget.PullCallback;
 import com.srx.widget.PullToLoadView;
 
@@ -22,9 +23,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import mobiwall.entwickler.pro.com.mobiwall.Preview_daily;
+
 public class Paginator_search {
     Context c;
-    PullToLoadView pullToLoadView;
+    //    PullToLoadView pullToLoadView;
+    RecyclerView pullToLoadView;
     RecyclerView rv;
     MyRecyclerViewAdapter adapter;
     boolean isLoading = false;
@@ -32,15 +36,17 @@ public class Paginator_search {
     int nextPage;
     String string1;
 
-    public Paginator_search(Context c, PullToLoadView pullToLoadView, String string1) {
+    public Paginator_search(Context c, RecyclerView pullToLoadView, String string1) {
         this.c = c;
-        this.pullToLoadView = pullToLoadView;
+//        this.pullToLoadView = pullToLoadView;
         this.string1 = string1;
 
-        rv = pullToLoadView.getRecyclerView();
+//        rv = pullToLoadView.getRecyclerView();
+        rv = pullToLoadView;
         rv.setLayoutManager(new GridLayoutManager(c, 2));
 
         adapter = new MyRecyclerViewAdapter(c, new ArrayList<Grid_model>());
+
         rv.setAdapter(adapter);
 
         initializePagination();
@@ -48,8 +54,9 @@ public class Paginator_search {
 
 
     public void initializePagination() {
-
-        pullToLoadView.isLoadMoreEnabled(true);
+        adapter.clear();
+        LoadData(0);
+       /* pullToLoadView.isLoadMoreEnabled(true);
         pullToLoadView.setPullCallback(new PullCallback() {
             @Override
             public void onLoadMore() {
@@ -74,20 +81,27 @@ public class Paginator_search {
             }
         });
 
-        pullToLoadView.initLoad();
+        pullToLoadView.initLoad();*/
     }
 
 
     public void LoadData(final int page) {
 
-        isLoading=true;
+        isLoading = true;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 RequestQueue requestQueue = Volley.newRequestQueue(c);
-                @SuppressLint("HardwareIds") //String URL="http://www.charmhdwallpapers.com/wallpaper/imagelist?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Daily&color_code=&count=0";
+                @SuppressLint("HardwareIds")
+                //String URL="http://www.charmhdwallpapers.com/wallpaper/imagelist?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Daily&color_code=&count=0";
 
-                        String URL = "http://themeelite.com/ananta/search?search="+string1;
+                final KProgressHUD hud = KProgressHUD.create(c)
+                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                        .setCancellable(true)
+                        .setAnimationSpeed(2)
+                        .setDimAmount(0.5f)
+                        .show();
+                String URL = "http://themeelite.com/ananta/search?search=" + string1;
 
 
                 Log.e("Grid service url", URL);
@@ -102,13 +116,13 @@ public class Paginator_search {
 
                             JSONArray array = jsonObject.getJSONArray("photoupload");
 
-
+                            hud.dismiss();
 
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject o = (JSONObject) array.get(i);
                                 Grid_model grid_model = new Grid_model();
                                 grid_model.setId(o.getInt("id"));
-                                grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" +o.getString("photo"));
+                                grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));
@@ -117,9 +131,9 @@ public class Paginator_search {
                                 adapter.add(grid_model);
 
                             }
-                            pullToLoadView.setComplete();
-                            isLoading=false;
-                            nextPage=page+1;
+//                            pullToLoadView.setComplete();
+                            isLoading = false;
+                            nextPage = page + 1;
 
 
                         } catch (JSONException e) {
@@ -136,6 +150,6 @@ public class Paginator_search {
 
                 requestQueue.add(stringRequest);
             }
-        },10);
+        }, 10);
     }
 }
