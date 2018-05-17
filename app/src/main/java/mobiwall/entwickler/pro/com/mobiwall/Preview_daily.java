@@ -46,7 +46,7 @@ public class Preview_daily extends AppCompatActivity {
     Button btn_set;
     ImageView imageView;
     ViewPager viewPager;
-    String App_ID = "ca-app-pub-7796828333997958/4152584076";
+    String App_ID = "ca-app-pub-3940256099942544/6300978111";
     //AdView adView;
 
     ImageView download,set_as_bcgrnd,unliked;
@@ -139,7 +139,7 @@ public class Preview_daily extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Grid_model grid_model=grid_models.get(viewPager.getCurrentItem());
-                if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
+               /* if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.liked));
 
                     like(grid_model,1);
@@ -150,7 +150,7 @@ public class Preview_daily extends AppCompatActivity {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.unliked));
                     like(grid_model,0);
                     grid_model.setismyfavourite("0");
-                }
+                }*/
             }
         });
 
@@ -194,7 +194,7 @@ public class Preview_daily extends AppCompatActivity {
         });
 /*
         AdView adView = findViewById(R.id.adView);
-        MobileAds.initialize(getApplicationContext(),"ca-app-pub-7796828333997958/4152584076");
+        MobileAds.initialize(getApplicationContext(),"ca-app-pub-3940256099942544/6300978111");
         AdRequest adRequest = new AdRequest.Builder().build();
        adView.loadAd(adRequest);*/
 

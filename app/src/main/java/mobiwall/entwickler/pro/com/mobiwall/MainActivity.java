@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private TextView mTextMessage,txt;
     ImageView imageView,img_search;
-    String App_ID = "ca-app-pub-7796828333997958/4152584076";
-    String App_ID_Interstitialad = "ca-app-pub-7796828333997958/6559255567";
+    String App_ID = "ca-app-pub-3940256099942544/6300978111";
+    String App_ID_Interstitialad = "ca-app-pub-3940256099942544/1033173712";
     AdView adView;
     InterstitialAd mInterstitialAd;
     FragmentTransaction fragmentTransaction;
@@ -80,22 +80,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-//        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd = new InterstitialAd(this);
 
         // set the ad unit ID
-//        mInterstitialAd.setAdUnitId( getString(R.string.interstial));
+        mInterstitialAd.setAdUnitId( getString(R.string.interstial));
 
         AdRequest adRequest1 = new AdRequest.Builder()
                 .build();
 
         // Load ads into Interstitial Ads
-      /*  mInterstitialAd.loadAd(adRequest1);
+        mInterstitialAd.loadAd(adRequest1);
 
         mInterstitialAd.setAdListener(new AdListener() {
             public void onAdLoaded() {
-//                showInterstitial();
+                showInterstitial();
             }
-        });*/
+        });
 
 
 
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.replace(R.id.fragment_container, new DailyFragment()).commit();
                 break;
 
-          /*  case R.id.navigation_hot:
+          case R.id.navigation_hot:
                 fragment = new HotFragment();
                 txt.setText("Popular");
                     fragmentTransaction.replace(R.id.fragment_container, new HotFragment()).commit();
@@ -160,12 +160,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-            case R.id.navigation_categories:
+              case R.id.navigation_categories:
                 fragment = new CategoriesFragment();
-                txt.setText("Categor");
+                txt.setText("Category");
                 fragmentTransaction.replace(R.id.fragment_container, new CategoriesFragment()).commit();
                 break;
-*/
 
 
         }

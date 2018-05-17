@@ -1,6 +1,5 @@
-package mobiwall.entwickler.pro.com.mobiwall.paginator;
+package mobiwall.entwickler.pro.com.mobiwall.paginator_categoryimage;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -20,20 +19,19 @@ import java.util.ArrayList;
 import mobiwall.entwickler.pro.com.mobiwall.Preview_daily;
 import mobiwall.entwickler.pro.com.mobiwall.R;
 
-
 /**
  * Created by Payal on 4/9/2018.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>  {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>  {
 
     private Context c;
     JSONArray array;
     FragmentManager fragmentManager;
-    ArrayList<Grid_model> grid_models;
+    ArrayList<mobiwall.entwickler.pro.com.mobiwall.paginator.Grid_model> grid_models;
 
 
-    public MyRecyclerViewAdapter(Context c, ArrayList<Grid_model> grid_models) {
+    public MyRecyclerAdapter(Context c, ArrayList<mobiwall.entwickler.pro.com.mobiwall.paginator.Grid_model> grid_models) {
         this.c = c;
         this.grid_models=grid_models;
     }
@@ -42,29 +40,30 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     {
         grid_models.clear();
     }
-    public  void add(Grid_model grid_model)
+    public  void add(mobiwall.entwickler.pro.com.mobiwall.paginator.Grid_model grid_model)
     {
         grid_models.add(grid_model);
     }
 
     @Override
-    public MyRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.dailylist, parent, false);
-        return new MyRecyclerViewAdapter.ViewHolder(view);
+        return new ViewHolder(view);
 
     }
 
-    @SuppressLint("ResourceType")
     @Override
-    public void onBindViewHolder(final MyRecyclerViewAdapter.ViewHolder holder, final int position) {
-        final Grid_model grid_model = grid_models.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final mobiwall.entwickler.pro.com.mobiwall.paginator.Grid_model grid_model = grid_models.get(position);
         Picasso.get().load(grid_model.getImg_url())
-//                .placeholder(c.getResources().getColor(R.color.colorBlack))
+                .placeholder(R.drawable.ic_launcher_background)
                 .resize(300,500)
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
+
+
         holder.textView.setText(grid_model.getFavourite_no());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
