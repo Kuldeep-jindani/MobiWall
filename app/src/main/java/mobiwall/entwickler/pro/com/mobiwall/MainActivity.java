@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     String App_ID = "ca-app-pub-3940256099942544/6300978111";
     String App_ID_Interstitialad = "ca-app-pub-3940256099942544/1033173712";
     AdView adView;
+    ImageView edt_search;
     InterstitialAd mInterstitialAd;
     FragmentTransaction fragmentTransaction;
     private boolean  loadFragment(Fragment fragment) {
@@ -110,6 +112,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });*/
+
+        edt_search = findViewById(R.id.search);
+        edt_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();
+            }
+        });
         imageView = findViewById(R.id.seting_vector);
 
         imageView.setOnClickListener(new View.OnClickListener() {
