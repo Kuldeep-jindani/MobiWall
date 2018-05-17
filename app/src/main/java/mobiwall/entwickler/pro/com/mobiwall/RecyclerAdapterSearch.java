@@ -87,6 +87,7 @@ public class RecyclerAdapterSearch extends RecyclerView.Adapter<RecyclerAdapterS
                         b.putString("name",jsonObjec.getString("id"));
                         FeatureImageGrid featureImageGrid=new FeatureImageGrid();
                         featureImageGrid.setArguments(b);
+                        ft.addToBackStack("category grid");
                         ft.replace(R.id.fragment_container,featureImageGrid).commit();
                     } catch (JSONException e) {
                         e.printStackTrace();
