@@ -3,6 +3,7 @@ package mobiwall.entwickler.pro.com.mobiwall.paginator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,12 +60,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @SuppressLint("ResourceType")
     @Override
-    public void onBindViewHolder(final MyRecyclerViewAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyRecyclerViewAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Grid_model grid_model = grid_models.get(position);
         Picasso.get().load(grid_model.getImg_url())
 //                .placeholder(c.getResources().getColor(R.color.colorBlack))
                 .resize(300,500)
-                .error(R.drawable.ic_launcher_background)
+//                .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
         holder.textView.setText(grid_model.getFavourite_no());
         holder.imageView.setOnClickListener(new View.OnClickListener() {

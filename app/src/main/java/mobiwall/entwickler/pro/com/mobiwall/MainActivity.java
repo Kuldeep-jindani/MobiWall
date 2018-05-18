@@ -153,9 +153,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onClick(View v) {
 //                txt.setText("Search");
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+               /* FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack("Dashboard");
-                fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();
+                fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();*/
             }
         });
         imageView = findViewById(R.id.seting_vector);
@@ -267,6 +267,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
               case R.id.navigation_categories:
                 fragment = new CategoriesFragment();
                 txt.setText("Category");
+                edt_search.setVisibility(View.VISIBLE);
+
                 fragmentTransaction.replace(R.id.fragment_container, new CategoriesFragment()).commit();
                 break;
 

@@ -2,6 +2,7 @@ package mobiwall.entwickler.pro.com.mobiwall;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,8 +53,9 @@ public class RecyclerAdapterSearch extends RecyclerView.Adapter<RecyclerAdapterS
         grid_models.add(grid_model);
     }
 
+    @NonNull
     @Override
-    public RecyclerAdapterSearch.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdapterSearch.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.searchlist, parent, false);
@@ -62,14 +64,14 @@ public class RecyclerAdapterSearch extends RecyclerView.Adapter<RecyclerAdapterS
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerAdapterSearch.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerAdapterSearch.ViewHolder holder, int position) {
 //        final Grid_model_search grid_model = grid_models.get(position);
         try {
             final JSONObject jsonObjec=array.getJSONObject(position);
             holder.textView.setText(jsonObjec.getString("category"));
             Picasso.get().load("http://themeelite.com/ananta/public/uploads/" +jsonObjec.getString("catimage"))
 //                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+//                    .error(R.drawable.ic_launcher_background)
                     .resize(200,300)
                     .into(holder.imageView);
 

@@ -23,7 +23,9 @@ import com.google.android.gms.ads.MobileAds;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import android.widget.ImageView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +33,9 @@ import org.json.JSONObject;
 public class CategoriesFragment extends Fragment {
     RecyclerView pullToLoadView;
     RecyclerAdapterSearch adapter;
+    ImageView search;
+    EditText search_ed;
+    LinearLayout searchLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +45,9 @@ public class CategoriesFragment extends Fragment {
         pullToLoadView = view.findViewById(R.id.wallpaper_grid_search);
 
         pullToLoadView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+
+
 
        /* AdView adView = view.findViewById(R.id.adView);
         MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");

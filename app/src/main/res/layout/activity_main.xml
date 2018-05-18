@@ -59,6 +59,7 @@
                     <ImageView
                         android:id="@+id/search"
                         android:layout_width="30dp"
+                        android:visibility="gone"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
@@ -73,6 +74,37 @@
                         android:layout_margin="5dp"
                         android:src="@drawable/searchicon"
                         />-->
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/searchLayout"
+                        android:layout_width="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/search_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/border_black"
+                            android:padding="10dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:hint="search"
+                            android:textColorHint="@color/colorPrimary"
+                            android:textColor="@color/colorBlack" />
+
+                        <Button
+                            android:id="@+id/btn_go"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:textColor="@color/colorWhite"
+                            android:layout_height="wrap_content"
+                            android:text="Search" />
+                    </LinearLayout>
+
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
