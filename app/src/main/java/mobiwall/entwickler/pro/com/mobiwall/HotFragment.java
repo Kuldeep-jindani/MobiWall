@@ -38,8 +38,8 @@ public class HotFragment extends Fragment {
 
         new Paginator(getContext(),pullToLoadView);
 
-        AdView adView = view.findViewById(R.id.adView);
-      /*  MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");
+       /* AdView adView = view.findViewById(R.id.adView);
+        MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("ca-app-pub-7796828333997958/4152584076").build();
         adView.loadAd(adRequest);*/
         return  view;

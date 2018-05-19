@@ -33,10 +33,10 @@ PullToLoadView pullToLoadView;
         View view = inflater.inflate(R.layout.fragment_daily, container, false);
 
 
-        AdView adView = view.findViewById(R.id.adView);
+     /*   AdView adView = view.findViewById(R.id.adView);
         MobileAds.initialize(getContext(),"ca-app-pub-3940256099942544/6300978111");
         AdRequest adRequest = new AdRequest.Builder().build();
-       adView.loadAd(adRequest);
+       adView.loadAd(adRequest);*/
 /*
         nativeExpressAdView = view.findViewById(R.id.native_add);
         nativeExpress//adView.loadAd(new AdRequest.Builder().build());*/
