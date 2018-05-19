@@ -59,7 +59,6 @@
                     <ImageView
                         android:id="@+id/search"
                         android:layout_width="30dp"
-                        android:visibility="gone"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"

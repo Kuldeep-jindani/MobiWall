@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     DrawerLayout drawer;
+    int search_bit=0;
     private Handler mHandler;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -147,17 +148,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });*/
+        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(this);
+        navigation.setSelectedItemId(R.id.navigation_daily);
 
         edt_search = findViewById(R.id.search);
         edt_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                txt.setText("Search");
-               /* FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.addToBackStack("Dashboard");
-                fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();*/
+                if (search_bit == 0) {
+                    txt.setText("Search");
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.addToBackStack("Dashboard");
+                    fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();
+                    search_bit=1;
+                }
+                else {
+                    navigation.setSelectedItemId(R.id.navigation_daily);
+                    search_bit=0;
+                }
             }
-        });
+            });
         imageView = findViewById(R.id.seting_vector);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +178,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //        startActivity(intent);
     }
 });
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
-        navigation.setSelectedItemId(R.id.navigation_daily);
 
 
 
@@ -267,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
               case R.id.navigation_categories:
                 fragment = new CategoriesFragment();
                 txt.setText("Category");
-                edt_search.setVisibility(View.VISIBLE);
+//                edt_search.setVisibility(View.VISIBLE);
 
                 fragmentTransaction.replace(R.id.fragment_container, new CategoriesFragment()).commit();
                 break;
