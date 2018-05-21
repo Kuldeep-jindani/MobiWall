@@ -21,7 +21,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="#80000000"
+        android:background="#000000"
         android:scaleType="centerCrop"
         android:id="@+id/img_gride_search"
 

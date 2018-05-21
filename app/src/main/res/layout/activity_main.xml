@@ -55,7 +55,7 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="20dp"
                         android:textStyle="bold|italic" />
-
+<!--
                     <ImageView
                         android:id="@+id/search"
                         android:layout_width="30dp"
@@ -63,7 +63,44 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
                         android:padding="3dp"
-                        android:src="@drawable/ic_search" />
+                        android:src="@drawable/ic_search" />-->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_marginRight="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:id="@+id/search_layout"
+                            android:background="@color/colorPrimary"
+                            android:visibility="gone"
+                            android:orientation="horizontal">
+                            <EditText
+                                android:id="@+id/search"
+                                android:layout_weight="10"
+                                android:backgroundTint="#ffffff"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <ImageView
+                                android:id="@+id/go_icon"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/go"
+                                android:layout_alignParentRight="true"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/search_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="20dp"
+                            android:src="@drawable/ic_search"
+                            android:layout_alignParentRight="true"/>
+                    </RelativeLayout>
                     <!--
                     <ImageView
                         android:layout_width="30dp"

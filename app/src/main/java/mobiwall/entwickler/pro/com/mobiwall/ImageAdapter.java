@@ -99,8 +99,8 @@ public class ImageAdapter extends PagerAdapter {
         Log.e("dhgsfsdg",grid_model.getImg_url());
         Picasso.get().load(grid_model.getImg_url())
 
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+//                .placeholder(R.drawable.ic_launcher_background)
+//                .error(R.drawable.ic_launcher_background)
                 .into( imageView);
 //        ((ViewPager) container).addView(imageView, 0);
         (container).addView(view);

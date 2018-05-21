@@ -32,7 +32,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="18dp"
-                    android:background="#80000000"
+                    android:background="#000000"
                     android:gravity="center"
                     android:padding="5dp">
 

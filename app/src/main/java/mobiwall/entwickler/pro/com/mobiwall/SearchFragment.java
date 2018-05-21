@@ -1,6 +1,7 @@
 package mobiwall.entwickler.pro.com.mobiwall;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.annotation.NonNull;
@@ -28,11 +29,21 @@ import mobiwall.entwickler.pro.com.mobiwall.paginator.Paginator;
 import mobiwall.entwickler.pro.com.mobiwall.paginator.Paginator_search;
 
 
+@SuppressLint("ValidFragment")
 public class SearchFragment extends Fragment {
 //    PullToLoadView pullToLoadView;
     RecyclerView pullToLoadView;
     EditText string;
     Button go;
+
+    String search_string;
+
+    public SearchFragment() {
+    }
+
+    public SearchFragment(String search_string) {
+        this.search_string = search_string;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -48,11 +59,11 @@ public class SearchFragment extends Fragment {
                 new Paginator_search(getContext(),pullToLoadView,string1);
             }
         });
+        new Paginator_search(getContext(),pullToLoadView,search_string);
 
+       /* RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-
-        String URL="http://themeelite.com/ananta/cate_data";/*?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Hot&color_code=&count=0%22";*/
+        String URL="http://themeelite.com/ananta/cate_data";*//*?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Hot&color_code=&count=0%22";*//*
         Log.e("Grid service url", URL);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
@@ -64,7 +75,7 @@ public class SearchFragment extends Fragment {
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray array=jsonObject.getJSONArray("category");
 
-                   /* for (int i = 0; i < array.length(); i++) {
+                   *//* for (int i = 0; i < array.length(); i++) {
                         JSONObject o = (JSONObject) array.get(i);
                         Grid_model_search grid_model = new Grid_model_search();
                         grid_model.setId(o.getInt("id"));
@@ -73,7 +84,7 @@ public class SearchFragment extends Fragment {
 
                         adapter.add(grid_model);
 
-                    }*/
+                    }*//*
 
 //                    adapter = new RecyclerAdapterSearch(getContext(), new ArrayList<Grid_model_search>());
                     RecyclerAdapterSearch adapter = new RecyclerAdapterSearch(getContext(), array,
@@ -90,7 +101,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        requestQueue.add(stringRequest);
+        requestQueue.add(stringRequest);*/
 
         return view;
     }

@@ -58,9 +58,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final mobiwall.entwickler.pro.com.mobiwall.paginator.Grid_model grid_model = grid_models.get(position);
         Picasso.get().load(grid_model.getImg_url())
-                .placeholder(R.drawable.ic_launcher_background)
+//                .placeholder(R.drawable.ic_launcher_background)
                 .resize(300,500)
-                .error(R.drawable.ic_launcher_background)
+//                .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
 
 

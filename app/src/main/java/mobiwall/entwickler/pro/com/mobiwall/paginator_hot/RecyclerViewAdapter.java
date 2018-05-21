@@ -65,7 +65,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
         final Grid_model_hot grid_model = grid_models.get(position);
         Picasso.get().load(grid_model.getImg_url())
 //                .placeholder(c.getResources().getColor(R.color.colorBlack))
-                .error(R.drawable.ic_launcher_background)
+//                .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
         holder.textView.setText(grid_model.getFavourite_no());
         holder.imageView.setOnClickListener(new View.OnClickListener() {

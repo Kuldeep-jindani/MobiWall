@@ -30,9 +30,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     String App_ID = "ca-app-pub-3940256099942544/6300978111";
     String App_ID_Interstitialad = "ca-app-pub-3940256099942544/1033173712";
     AdView adView;
-    ImageView edt_search;
+    ImageView edt_search,go;
     InterstitialAd mInterstitialAd;
     FragmentTransaction fragmentTransaction;
     private boolean  loadFragment(Fragment fragment) {
@@ -152,15 +155,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.setOnNavigationItemSelectedListener(this);
         navigation.setSelectedItemId(R.id.navigation_daily);
 
-        edt_search = findViewById(R.id.search);
+        edt_search = findViewById(R.id.search_icon);
+        final EditText  search_edTxt=findViewById(R.id.search);
+        final LinearLayout search_layout=findViewById(R.id.search_layout);
+        go=findViewById(R.id.go_icon);
         edt_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (search_bit == 0) {
-                    txt.setText("Search");
+                   /* txt.setText("Search");
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("Dashboard");
-                    fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();
+                    fragmentTransaction.replace(R.id.fragment_container, new SearchFragment()).commit();*/
+
+                    Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
+                    edt_search.setVisibility(View.GONE);
+                    search_layout.setVisibility(View.VISIBLE);
+                    search_layout.setAnimation(slideUp);
+
+
                     search_bit=1;
                 }
                 else {
@@ -169,6 +182,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
             }
             });
+
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack("Dashboard");
+                fragmentTransaction.replace(R.id.fragment_container, new SearchFragment(search_edTxt.getText().toString())).commit();
+            }
+        });
+
+
         imageView = findViewById(R.id.seting_vector);
 
         imageView.setOnClickListener(new View.OnClickListener() {
