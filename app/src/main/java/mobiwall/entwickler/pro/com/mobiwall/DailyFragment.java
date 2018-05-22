@@ -3,15 +3,20 @@ package mobiwall.entwickler.pro.com.mobiwall;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.srx.widget.PullToLoadView;
+
+import java.util.Objects;
 
 import mobiwall.entwickler.pro.com.mobiwall.paginator.Paginator;
 
@@ -83,8 +88,42 @@ PullToLoadView pullToLoadView;
 
         */
 
+
+
+/*
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+
+                    final InterstitialAd  mInterstitialAd = new InterstitialAd(getContext());
+
+                    // set the ad unit ID
+                    mInterstitialAd.setAdUnitId( getString(R.string.interstial));
+
+                    AdRequest adRequest1 = new AdRequest.Builder()
+                            .build();
+
+                    // Load ads into Interstitial Ads
+                    mInterstitialAd.loadAd(adRequest1);
+
+                    mInterstitialAd.setAdListener(new AdListener() {
+                        public void onAdLoaded() {
+                            mInterstitialAd.show();
+                        }
+                    });
+                    return true;
+                }
+                return false;
+            }
+        });
+*/
+
         return view;
     }
+
+
 
 }
 

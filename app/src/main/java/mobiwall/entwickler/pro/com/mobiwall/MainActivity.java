@@ -18,6 +18,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -52,17 +53,18 @@ import mobiwall.entwickler.pro.com.mobiwall.Bean.DrawerModel;
 import mobiwall.entwickler.pro.com.mobiwall.firebase.Config;
 import mobiwall.entwickler.pro.com.mobiwall.firebase.NotificationUtils;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView mTextMessage,txt;
-    ImageView imageView,img_search;
+    private TextView mTextMessage, txt;
+    ImageView imageView, img_search;
     String App_ID = "ca-app-pub-3940256099942544/6300978111";
     String App_ID_Interstitialad = "ca-app-pub-3940256099942544/1033173712";
     AdView adView;
-    ImageView edt_search,go;
+    ImageView edt_search, go;
     InterstitialAd mInterstitialAd;
     FragmentTransaction fragmentTransaction;
-    private boolean  loadFragment(Fragment fragment) {
+
+    private boolean loadFragment(Fragment fragment) {
 
         if (fragment != null) {
             getSupportFragmentManager()
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     DrawerLayout drawer;
-    int search_bit=0;
+    int search_bit = 0;
     private Handler mHandler;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-      /*  mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd = new InterstitialAd(this);
 
         // set the ad unit ID
         mInterstitialAd.setAdUnitId( getString(R.string.interstial));
@@ -134,14 +136,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         mInterstitialAd.setAdListener(new AdListener() {
             public void onAdLoaded() {
-                showInterstitial();
-            }
-        });*/
 
+            }
+        });
 
 
         txt = findViewById(R.id.txt_daily);
         img_search = findViewById(R.id.search_bar);
+
+
 
         /*img_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,9 +159,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.setSelectedItemId(R.id.navigation_daily);
 
         edt_search = findViewById(R.id.search_icon);
-        final EditText  search_edTxt=findViewById(R.id.search);
-        final LinearLayout search_layout=findViewById(R.id.search_layout);
-        go=findViewById(R.id.go_icon);
+        final EditText search_edTxt = findViewById(R.id.search);
+        final LinearLayout search_layout = findViewById(R.id.search_layout);
+        go = findViewById(R.id.go_icon);
         edt_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,14 +177,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     search_layout.setAnimation(slideUp);
 
 
-                    search_bit=1;
-                }
-                else {
+                    search_bit = 1;
+                } else {
                     navigation.setSelectedItemId(R.id.navigation_daily);
-                    search_bit=0;
+                    search_bit = 0;
                 }
             }
-            });
+        });
 
         go.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,13 +198,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         imageView = findViewById(R.id.seting_vector);
 
         imageView.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
 //        Intent intent =  new Intent(MainActivity.this,SettingsActivity.class);
 //        startActivity(intent);
-    }
-});
-
+            }
+        });
 
 
         DrawerModel[] drawerItem = new DrawerModel[7];
@@ -260,10 +261,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         displayFirebaseRegId();
 
     }
+
     private FrameLayout viewPager;
+
     private void showInterstitial() {
         if (mInterstitialAd.isLoaded()) {
-             mInterstitialAd.show();
+            mInterstitialAd.show();
         }
     }
 
@@ -287,16 +290,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.replace(R.id.fragment_container, new DailyFragment()).commit();
                 break;
 
-          case R.id.navigation_hot:
+            case R.id.navigation_hot:
                 fragment = new HotFragment();
                 txt.setText("Popular");
-                    fragmentTransaction.replace(R.id.fragment_container, new HotFragment()).commit();
+                fragmentTransaction.replace(R.id.fragment_container, new HotFragment()).commit();
                 break;
 
 
-
-
-              case R.id.navigation_categories:
+            case R.id.navigation_categories:
                 fragment = new CategoriesFragment();
                 txt.setText("Category");
 //                edt_search.setVisibility(View.VISIBLE);
@@ -472,5 +473,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+
+        showInterstitial();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() != 0){
+            showInterstitial();
+        }
     }
 }

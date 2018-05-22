@@ -91,6 +91,13 @@
                                 android:layout_weight="1"
                                 android:src="@drawable/go"
                                 android:layout_alignParentRight="true"/>
+                            <ImageView
+                                android:id="@+id/cancel_icon"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_cancel"
+                                android:layout_alignParentRight="true"/>
                         </LinearLayout>
 
                         <ImageView

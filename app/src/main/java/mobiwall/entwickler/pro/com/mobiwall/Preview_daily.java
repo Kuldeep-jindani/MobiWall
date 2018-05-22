@@ -74,21 +74,21 @@ public class Preview_daily extends AppCompatActivity {
         final ImageAdapter adapter = new ImageAdapter(this, grid_models);
 
 
-        mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd = new InterstitialAd(this);
 
-        // set the ad unit ID
-        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
+            // set the ad unit ID
+            mInterstitialAd.setAdUnitId(getString(R.string.interstial));
 
-        AdRequest adRequest1 = new AdRequest.Builder()
-                .build();
+            AdRequest adRequest1 = new AdRequest.Builder()
+                    .build();
 
-        // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest1);
-        mInterstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
+            // Load ads into Interstitial Ads
+            mInterstitialAd.loadAd(adRequest1);
+            mInterstitialAd.setAdListener(new AdListener() {
+                public void onAdLoaded() {
 
-            }
-        });
+                }
+            });
 
 
         download.setOnClickListener(new View.OnClickListener() {
@@ -412,5 +412,9 @@ public class Preview_daily extends AppCompatActivity {
 
 
     }
+
+
+
+
 }
 
