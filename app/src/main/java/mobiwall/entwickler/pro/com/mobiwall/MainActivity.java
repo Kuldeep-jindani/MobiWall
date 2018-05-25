@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        FirebaseMessaging.getInstance().subscribeToTopic("globle");
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override

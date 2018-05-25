@@ -74,7 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String message = data.getString("message");
             boolean isBackground = data.getBoolean("is_background");
             String imageUrl = data.getString("image");
-            String timestamp = data.getString("timestamp");
+            String timestamp ="";
             JSONObject payload = data.getJSONObject("payload");
 
             Log.e(TAG, "title: " + title);
@@ -82,7 +82,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "isBackground: " + isBackground);
             Log.e(TAG, "payload: " + payload.toString());
             Log.e(TAG, "imageUrl: " + imageUrl);
-            Log.e(TAG, "timestamp: " + timestamp);
+//            Log.e(TAG, "timestamp: " + timestamp);
 
 
             if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
