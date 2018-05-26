@@ -107,8 +107,10 @@ public class Paginator {
 
                         String URL = "";
                 if (search.equals(""))
-                    URL = "http://themeelite.com/ananta/image_data?last_image_id=" + page * 20;
-                else URL = "http://themeelite.com/ananta/search?search=" + search;
+                    URL = "http://themeelite.com/ananta/image_data?last_image_id=" + page * 20+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
+                else URL = "http://themeelite.com/ananta/search?search=" + search+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
 
                 Log.e("Grid service url", URL);
 
@@ -117,7 +119,7 @@ public class Paginator {
                     public void onResponse(String response) {
 
                         try {
-                            Log.e("page IN ASYNC TASK ", response);
+                            Log.e("page IN ASYNC TASK paginator", response);
                             JSONObject jsonObject = new JSONObject(response);
 
                             JSONArray array = jsonObject.getJSONArray("photoupload");
@@ -130,8 +132,8 @@ public class Paginator {
                                 grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
-                                    grid_model.settype(o.getString("type"));
-                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));*/
+                                    grid_model.settype(o.getString("type"));*/
+                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));
 
                                 adapter.add(grid_model);
 

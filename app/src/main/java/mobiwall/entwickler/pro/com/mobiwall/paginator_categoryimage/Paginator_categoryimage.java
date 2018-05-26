@@ -94,7 +94,8 @@ public class Paginator_categoryimage {
                     "&category_id="+string+"&category_type=&color_code=&count=0";*/
 
 
-                 String URL = "http://themeelite.com/ananta/category_images?last_image_id=" + page * 20 + "&category_id=" + string;
+                 String URL = "http://themeelite.com/ananta/category_images?last_image_id=" + page * 20 + "&category_id=" + string + "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
+                         Settings.Secure.ANDROID_ID);
 
                 Log.e("Grid service url", URL);
 
@@ -116,8 +117,8 @@ public class Paginator_categoryimage {
                                 grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" +o.getString("photo"));
                                   /*  grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
-                                    grid_model.settype(o.getString("type"));
-                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));*/
+                                    grid_model.settype(o.getString("type"));*/
+                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));
                                     adapter.add(grid_model);
                             }
                             pullToLoadView.setComplete();

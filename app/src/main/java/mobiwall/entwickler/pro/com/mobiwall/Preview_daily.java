@@ -5,9 +5,11 @@ import android.app.WallpaperManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -55,6 +57,7 @@ public class Preview_daily extends AppCompatActivity {
 
     InterstitialAd mInterstitialAd;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,13 @@ public class Preview_daily extends AppCompatActivity {
         final ImageAdapter adapter = new ImageAdapter(this, grid_models);
 
 
+     /*   Grid_model grid_model=grid_models.get(i.getIntExtra("pos",0));
+
+        if (grid_model.getIsmyfavourite().equals("0"))
+            unliked.setImageDrawable(getDrawable(R.drawable.unliked));
+else
+            unliked.setImageDrawable(getDrawable(R.drawable.liked));
+*/
             mInterstitialAd = new InterstitialAd(this);
 
             // set the ad unit ID
@@ -165,6 +175,8 @@ public class Preview_daily extends AppCompatActivity {
             }
         });
 
+
+
         unliked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,18 +187,18 @@ public class Preview_daily extends AppCompatActivity {
                     click++;
                 }
                 Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
-               /* if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
+                if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.liked));
 
-                    like(grid_model,1);
+                    like(grid_model,0);
                     grid_model.setismyfavourite("1");
 
                 }
                 else if (grid_model.getIsmyfavourite().equalsIgnoreCase("1")) {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.unliked));
-                    like(grid_model,0);
+                    like(grid_model,1);
                     grid_model.setismyfavourite("0");
-                }*/
+                }
             }
         });
 
@@ -206,7 +218,7 @@ public class Preview_daily extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            /*    Grid_model grid_model=grid_models.get(viewPager.getCurrentItem());
+                Grid_model grid_model=grid_models.get(viewPager.getCurrentItem());
                 if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.unliked));
 
@@ -215,7 +227,7 @@ public class Preview_daily extends AppCompatActivity {
                 else if (grid_model.getIsmyfavourite().equalsIgnoreCase("1")) {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.liked));
 //                    like(grid_model,1);
-                }*/
+                }
             }
 
             @Override
@@ -297,9 +309,9 @@ public class Preview_daily extends AppCompatActivity {
 //        final String url="http://charmhdwallpapers.com/wallpaper/fav?favourite="+i+"&image_id="+grid_model.getId()+"&device_id="+ Settings.Secure.getString(this.getContentResolver(),
 //                Settings.Secure.ANDROID_ID);
 
-        final String url = "http://themeelite.com/ananta/image_details?image_id=" + grid_model.getId() + "&device_id=" + Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        final String url = "http://themeelite.com/ananta/likes?image_id="+ grid_model.getId()+"&device_id="+ Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID)+"&bit="+i;
+        Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("like url", url);

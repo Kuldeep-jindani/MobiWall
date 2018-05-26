@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     String App_ID = "ca-app-pub-3940256099942544/6300978111";
     String App_ID_Interstitialad = "ca-app-pub-3940256099942544/1033173712";
     AdView adView;
-    ImageView edt_search, go;
+    ImageView edt_search, go,cancel_icon;
     InterstitialAd mInterstitialAd;
     FragmentTransaction fragmentTransaction;
 
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.setSelectedItemId(R.id.navigation_daily);
 
         edt_search = findViewById(R.id.search_icon);
+        cancel_icon = findViewById(R.id.cancel_icon);
         final EditText search_edTxt = findViewById(R.id.search);
         final LinearLayout search_layout = findViewById(R.id.search_layout);
         go = findViewById(R.id.go_icon);
@@ -182,6 +183,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     navigation.setSelectedItemId(R.id.navigation_daily);
                     search_bit = 0;
                 }
+            }
+        });
+        cancel_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right);
+                edt_search.setVisibility(View.VISIBLE);
+                search_layout.setVisibility(View.GONE);
+                search_layout.setAnimation(slideUp);
+                navigation.setSelectedItemId(R.id.navigation_daily);
+                search_bit = 0;
             }
         });
 

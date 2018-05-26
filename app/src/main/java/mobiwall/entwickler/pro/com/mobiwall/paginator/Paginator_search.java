@@ -3,6 +3,7 @@ package mobiwall.entwickler.pro.com.mobiwall.paginator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -101,7 +102,8 @@ public class Paginator_search {
                         .setAnimationSpeed(2)
                         .setDimAmount(0.5f)
                         .show();
-                String URL = "http://themeelite.com/ananta/search?search=" + string1;
+                String URL = "http://themeelite.com/ananta/search?search=" + string1+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
 
 
                 Log.e("Grid service url", URL);
@@ -125,8 +127,8 @@ public class Paginator_search {
                                 grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
-                                    grid_model.settype(o.getString("type"));
-                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));*/
+                                    grid_model.settype(o.getString("type"));*/
+                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));
 
                                 adapter.add(grid_model);
 
