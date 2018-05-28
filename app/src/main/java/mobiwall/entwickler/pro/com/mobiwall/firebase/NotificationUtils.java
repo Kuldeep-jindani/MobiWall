@@ -55,7 +55,7 @@ public class NotificationUtils {
 
 
         // notification icon
-        final int icon = R.mipmap.ic_launcher;
+        final int icon = R.mipmap.mobiwall;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent =
@@ -98,14 +98,16 @@ public class NotificationUtils {
         inboxStyle.addLine(message);
 
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setSmallIcon(icon)
+                .setTicker("MobiWall")
+                .setWhen(0)
                 .setAutoCancel(true)
-                .setContentTitle(title)
+                .setContentTitle("MobiWall")
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
                 .setStyle(inboxStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.mobiwall)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
                 .build();
@@ -116,18 +118,20 @@ public class NotificationUtils {
 
     private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-        bigPictureStyle.setBigContentTitle(title);
+//        bigPictureStyle.setBigContentTitle(title);
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
         bigPictureStyle.bigPicture(bitmap);
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setSmallIcon(icon)
+                .setTicker("MobiWall")
+                .setWhen(0)
                 .setAutoCancel(true)
-                .setContentTitle(title)
+                .setContentTitle("MobiWall")
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
                 .setStyle(bigPictureStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.mobiwall)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
                 .build();

@@ -60,9 +60,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     String App_ID = "ca-app-pub-3940256099942544/6300978111";
     String App_ID_Interstitialad = "ca-app-pub-3940256099942544/1033173712";
     AdView adView;
-    ImageView edt_search, go,cancel_icon;
+    ImageView edt_search, go, cancel_icon;
     InterstitialAd mInterstitialAd;
     FragmentTransaction fragmentTransaction;
+
+    ActionBarDrawerToggle toggle;
+    private boolean mToolBarNavigationListenerIsRegistered = false;
 
     private boolean loadFragment(Fragment fragment) {
 
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         mInterstitialAd = new InterstitialAd(this);
 
         // set the ad unit ID
-        mInterstitialAd.setAdUnitId( getString(R.string.interstial));
+        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
 
         AdRequest adRequest1 = new AdRequest.Builder()
                 .build();
@@ -238,13 +241,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         FirebaseMessaging.getInstance().subscribeToTopic("globle");
 
@@ -332,9 +336,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         public void selectItem(int position) {
 
             Fragment fragment = null;
-            fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (position) {
                 case 0:
+                    txt.setText("Settings");
+                    fragmentTransaction.addToBackStack("dashboard");
+                    fragmentTransaction.replace(R.id.fragment_container, new Setting_Fragment()).commit();
+                    enableViews(true);
                     break;
 
                 case 1:
@@ -422,6 +430,57 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+    private void enableViews(boolean enable) {
+
+        // To keep states of ActionBar and ActionBarDrawerToggle synchronized,
+        // when you enable on one, you disable on the other.
+        // And as you may notice, the order for this operation is disable first, then enable - VERY VERY IMPORTANT.
+        if (enable) {
+//You may not want to open the drawer on swipe from the left in this case
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+// Remove hamburger
+            toggle.setDrawerIndicatorEnabled(false);
+            // Show back button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            // when DrawerToggle is disabled i.e. setDrawerIndicatorEnabled(false), navigation icon
+            // clicks are disabled i.e. the UP button will not work.
+            // We need to add a listener, as in below, so DrawerToggle will forward
+            // click events to this listener.
+            if (!mToolBarNavigationListenerIsRegistered) {
+                toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Doesn't have to be onBackPressed
+                        onBackPressed();
+                        enableViews(false);
+
+                    }
+                });
+
+                mToolBarNavigationListenerIsRegistered = true;
+            }
+
+        } else {
+//You must regain the power of swipe for the drawer.
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+// Remove back button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            // Show hamburger
+            toggle.setDrawerIndicatorEnabled(true);
+            // Remove the/any drawer toggle listener
+            toggle.setToolbarNavigationClickListener(null);
+            mToolBarNavigationListenerIsRegistered = false;
+        }
+
+        // So, one may think "Hmm why not simplify to:
+        // .....
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
+        // mDrawer.setDrawerIndicatorEnabled(!enable);
+        // ......
+        // To re-iterate, the order in which you enable and disable views IS important #dontSimplify.
+    }
+
     public void SharingToSocialMedia(String application) {
 
         Intent intent = new Intent();
@@ -476,7 +535,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onResume();
 
 
-
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(Config.REGISTRATION_COMPLETE));
@@ -503,7 +561,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         showInterstitial();
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() != 0){
+        if (fragmentManager.getBackStackEntryCount() != 0) {
             showInterstitial();
         }
     }
