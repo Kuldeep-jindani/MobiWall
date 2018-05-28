@@ -67,7 +67,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 .resize(300,500)
 //                .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
-        holder.textView.setText(grid_model.getFavourite_no());
+        holder.textView.setText(grid_model.getIsmyfavourite());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

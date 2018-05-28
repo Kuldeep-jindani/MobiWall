@@ -27,6 +27,14 @@ public class HotFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void setMenuVisibility(final boolean visible) {
+        super.setMenuVisibility(visible);
+        if (visible) {
+            new Paginator(getContext(),pullToLoadView);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +45,8 @@ public class HotFragment extends Fragment {
         pullToLoadView = view.findViewById(R.id.wallpaper_grid_hot);
 
         new Paginator(getContext(),pullToLoadView);
+
+
 
        /* AdView adView = view.findViewById(R.id.adView);
         MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");

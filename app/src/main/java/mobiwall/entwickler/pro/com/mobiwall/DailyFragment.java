@@ -29,6 +29,13 @@ PullToLoadView pullToLoadView;
  NativeExpressAdView nativeExpressAdView;
 
 
+    @Override
+    public void setMenuVisibility(final boolean visible) {
+        super.setMenuVisibility(visible);
+        if (visible) {
+            new Paginator(getContext(),pullToLoadView);
+        }
+    }
 
 
     @Override

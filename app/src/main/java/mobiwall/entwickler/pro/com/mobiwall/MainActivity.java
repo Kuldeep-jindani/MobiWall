@@ -332,11 +332,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         public void selectItem(int position) {
 
             Fragment fragment = null;
+            fragmentTransaction=getSupportFragmentManager().beginTransaction();
             switch (position) {
                 case 0:
                     break;
 
                 case 1:
+                    fragment = new HotFragment();
+                    txt.setText("Favorite");
+
+                    fragmentTransaction.replace(R.id.fragment_container, new Favorite_fragment()).commit();
+
                     break;
 
                 case 2:
@@ -468,6 +474,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onResume() {
         super.onResume();
+
+
 
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,

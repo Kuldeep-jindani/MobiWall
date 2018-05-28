@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class Paginator {
+public class Paginator_favorite {
 
     Context c;
     PullToLoadView pullToLoadView;
@@ -34,7 +34,7 @@ public class Paginator {
     boolean hasLoadAll = false;
     int nextPage;
 
-    public Paginator(Context c, PullToLoadView pullToLoadView) {
+    public Paginator_favorite(Context c, PullToLoadView pullToLoadView) {
         this.c = c;
         this.pullToLoadView = pullToLoadView;
 
@@ -50,7 +50,7 @@ public class Paginator {
 
     String search = "";
 
-    public Paginator(Context c, PullToLoadView pullToLoadView, String search) {
+    public Paginator_favorite(Context c, PullToLoadView pullToLoadView, String search) {
         this.search = search;
         this.c = c;
         this.pullToLoadView = pullToLoadView;
@@ -106,12 +106,9 @@ public class Paginator {
                 @SuppressLint("HardwareIds") //String URL="http://www.charmhdwallpapers.com/wallpaper/imagelist?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Daily&color_code=&count=0";
 
                         String URL = "";
-                if (search.equals(""))
-                    URL = "http://themeelite.com/ananta/image_data?last_image_id=" + page * 20+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
-                else URL = "http://themeelite.com/ananta/search?search=" + search+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
+                    URL = "http://themeelite.com/ananta/fav_data?"+ "device_id=" + Settings.Secure.getString(c.getContentResolver(),
 
+                            Settings.Secure.ANDROID_ID);
                 Log.e("Grid service url", URL);
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -119,7 +116,7 @@ public class Paginator {
                     public void onResponse(String response) {
 
                         try {
-                            Log.e("page IN ASYNC TASK paginator", response);
+                            Log.e("IN ASYNC TASK fav", response);
                             JSONObject jsonObject = new JSONObject(response);
 
                             JSONArray array = jsonObject.getJSONArray("photoupload");
@@ -133,7 +130,7 @@ public class Paginator {
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));*/
-                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));
+                                grid_model.setismyfavourite("1");
 
                                 adapter.add(grid_model);
 
