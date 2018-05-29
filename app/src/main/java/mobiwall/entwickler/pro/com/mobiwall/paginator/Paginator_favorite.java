@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,7 +51,7 @@ public class Paginator_favorite {
 
     String search = "";
 
-    public Paginator_favorite(Context c, PullToLoadView pullToLoadView, String search) {
+   /* public Paginator_favorite(Context c, PullToLoadView pullToLoadView, String search) {
         this.search = search;
         this.c = c;
         this.pullToLoadView = pullToLoadView;
@@ -62,7 +63,7 @@ public class Paginator_favorite {
         rv.setAdapter(adapter);
 
         initializePagination();
-    }
+    }*/
 
 
     public void initializePagination() {
@@ -106,12 +107,12 @@ public class Paginator_favorite {
                 @SuppressLint("HardwareIds") //String URL="http://www.charmhdwallpapers.com/wallpaper/imagelist?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Daily&color_code=&count=0";
 
                         String URL = "";
-                    URL = "http://themeelite.com/ananta/fav_data?"+ "device_id=" + Settings.Secure.getString(c.getContentResolver(),
+                    URL = "http://themeelite.com/ananta/list_of_favourites?"+ "device_id=" + Settings.Secure.getString(c.getContentResolver(),
 
                             Settings.Secure.ANDROID_ID);
                 Log.e("Grid service url", URL);
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
@@ -119,32 +120,36 @@ public class Paginator_favorite {
                             Log.e("IN ASYNC TASK fav", response);
                             JSONObject jsonObject = new JSONObject(response);
 
-                            JSONArray array = jsonObject.getJSONArray("photoupload");
+                            JSONArray array = jsonObject.getJSONArray("list_favourite");
 
-
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject o = (JSONObject) array.get(i);
-                                Grid_model grid_model = new Grid_model();
-                                grid_model.setId(o.getInt("id"));
-                                grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
+                            if (array.length() > 0) {
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject o = (JSONObject) array.get(i);
+                                    Grid_model grid_model = new Grid_model();
+                                    grid_model.setId(o.getInt("id"));
+                                    grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));*/
-                                grid_model.setismyfavourite("1");
+                                    grid_model.setismyfavourite(o.getString("isLiked"));
+                                    grid_model.setLikes(o.getString("likes"));
 
-                                adapter.add(grid_model);
+                                    adapter.add(grid_model);
 
+                                }
+                                pullToLoadView.setComplete();
+                                isLoading = false;
+                                nextPage = page + 1;
+                            }else {
+                                Toast.makeText(c, "No Data", Toast.LENGTH_SHORT).show();
                             }
-                            pullToLoadView.setComplete();
-                            isLoading = false;
-                            nextPage = page + 1;
+
+                            } catch(JSONException e){
+                                e.printStackTrace();
+                            }
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
+                        
                     }
                 }, new Response.ErrorListener() {
                     @Override

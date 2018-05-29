@@ -11,10 +11,29 @@ public class Grid_model implements Serializable {
 
     public int id;
     private String ismyfavourite;
+    private String ismyliked;
     private String img_url;
     private String category_id;
     private String favourite_no;
     private String type;
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public String getIsmyliked() {
+        return ismyliked;
+    }
+
+    public void setIsmyliked(String ismyliked) {
+        this.ismyliked = ismyliked;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
+
+    private String likes;
 
     public void setId(int id) {
         this.id = id;

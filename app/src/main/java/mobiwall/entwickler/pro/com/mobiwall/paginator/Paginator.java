@@ -133,7 +133,8 @@ public class Paginator {
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));*/
-                                    grid_model.setismyfavourite(o.getString("isMyFavourite"));
+                                    grid_model.setismyfavourite(o.getString("isLiked"));
+                                    grid_model.setLikes(o.getString("likes"));
 
                                 adapter.add(grid_model);
 

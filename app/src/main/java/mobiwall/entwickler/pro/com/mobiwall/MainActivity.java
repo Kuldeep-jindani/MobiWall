@@ -346,10 +346,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     break;
 
                 case 1:
-                    fragment = new HotFragment();
                     txt.setText("Favorite");
+                    fragment = new Favorite_fragment();
 
-                    fragmentTransaction.replace(R.id.fragment_container, new Favorite_fragment()).commit();
+//                    fragmentTransaction.replace(R.id.fragment_container, new Favorite_fragment()).commit();
 
                     break;
 
@@ -405,6 +405,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     public void run() {
                         // update the main content by replacing fragments
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.addToBackStack("dashboard");
                         fragmentTransaction.setCustomAnimations(R.anim.set_out_right, R.anim.set_out_right);
                         fragmentTransaction.replace(R.id.fragment_container, finalFragment);
 //
