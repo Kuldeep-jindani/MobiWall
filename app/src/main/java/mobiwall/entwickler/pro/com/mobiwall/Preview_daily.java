@@ -180,7 +180,7 @@ else
         unliked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Preview_daily.this, "like clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Preview_daily.this, "like clicked", Toast.LENGTH_SHORT).show();
                 if (click == 0) {
 
                     showInterstitial();
@@ -300,9 +300,9 @@ else
     }
 
     private void showInterstitial() {
-        if (mInterstitialAd.isLoaded()) {
+      /*  if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
-        }
+        }*/
     }
 
     public void like(Grid_model grid_model, int i) {
@@ -310,7 +310,7 @@ else
 //        final String url="http://charmhdwallpapers.com/wallpaper/fav?favourite="+i+"&image_id="+grid_model.getId()+"&device_id="+ Settings.Secure.getString(this.getContentResolver(),
 //                Settings.Secure.ANDROID_ID);
 
-        Toast.makeText(this, "in likes ", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "in likes ", Toast.LENGTH_SHORT).show();
         final String url = "http://themeelite.com/ananta/likes?image_id="+ grid_model.getId()+"&device_id="+ Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID)+"&bit="+i;
         Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

@@ -282,9 +282,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private FrameLayout viewPager;
 
     private void showInterstitial() {
-        if (mInterstitialAd.isLoaded()) {
+      /*  if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
-        }
+        }*/
     }
 
     @Override
