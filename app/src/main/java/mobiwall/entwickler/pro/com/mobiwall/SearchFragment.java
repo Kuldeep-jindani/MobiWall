@@ -19,6 +19,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.srx.widget.PullToLoadView;
 
 import org.json.JSONArray;
@@ -60,6 +63,7 @@ public class SearchFragment extends Fragment {
             }
         });
         new Paginator_search(getContext(),pullToLoadView,search_string);
+
 
        /* RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 

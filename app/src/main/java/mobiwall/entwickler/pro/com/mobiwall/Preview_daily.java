@@ -300,9 +300,9 @@ else
     }
 
     private void showInterstitial() {
-      /*  if (mInterstitialAd.isLoaded()) {
+        if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
-        }*/
+        }
     }
 
     public void like(Grid_model grid_model, int i) {

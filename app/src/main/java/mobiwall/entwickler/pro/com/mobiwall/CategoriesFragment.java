@@ -53,6 +53,10 @@ public class CategoriesFragment extends Fragment {
         MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("ca-app-pub-7796828333997958/4152584076").build();
        adView.loadAd(adRequest);*/
+        AdView adView = view.findViewById(R.id.adView);
+        MobileAds.initialize(getContext(),"ca-app-pub-8051557645259039/3121786353");
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         String URL="http://themeelite.com/ananta/cate_data";/*?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Hot&color_code=&count=0%22";*/

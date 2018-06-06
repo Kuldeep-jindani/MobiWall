@@ -21,6 +21,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.srx.widget.PullToLoadView;
 
 import org.json.JSONArray;
@@ -111,6 +114,10 @@ public class Favorite_fragment extends Fragment {
         });
 
         requestQueue.add(stringRequest);
+        AdView adView = v.findViewById(R.id.adView);
+        MobileAds.initialize(getContext(),"ca-app-pub-8051557645259039/3121786353");
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
         return v;
     }
 }

@@ -72,6 +72,10 @@ apiPopular();
         MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("ca-app-pub-7796828333997958/4152584076").build();
         adView.loadAd(adRequest);*/
+        AdView adView = view.findViewById(R.id.adView);
+        MobileAds.initialize(getContext(),"ca-app-pub-8051557645259039/3121786353");
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
         return  view;
     }
 
