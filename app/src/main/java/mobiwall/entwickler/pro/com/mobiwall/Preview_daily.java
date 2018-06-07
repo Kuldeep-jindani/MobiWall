@@ -2,7 +2,9 @@ package mobiwall.entwickler.pro.com.mobiwall;
 
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,7 +12,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +48,10 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import mobiwall.entwickler.pro.com.mobiwall.paginator.Grid_model;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class Preview_daily extends AppCompatActivity {
     Button btn_set;
@@ -84,32 +93,37 @@ public class Preview_daily extends AppCompatActivity {
 else
             unliked.setImageDrawable(getDrawable(R.drawable.liked));
 */
-            mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd = new InterstitialAd(this);
 
-            // set the ad unit ID
-            mInterstitialAd.setAdUnitId(getString(R.string.interstial));
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
 
-            AdRequest adRequest1 = new AdRequest.Builder()
-                    .build();
+        AdRequest adRequest1 = new AdRequest.Builder()
+                .build();
 
-            // Load ads into Interstitial Ads
-            mInterstitialAd.loadAd(adRequest1);
-            mInterstitialAd.setAdListener(new AdListener() {
-                public void onAdLoaded() {
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest1);
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
 
-                }
-            });
+            }
+        });
 
 
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
-                new DownloadFile(grid_model).execute(grid_model.getImg_url());
-                Log.e("click bit", String.valueOf(click));
-                if (click == 0) {
-                    showInterstitial();
-                    click++;
+                if (checkPermission()) {
+                    Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
+                    new DownloadFile(grid_model).execute(grid_model.getImg_url());
+                    Log.e("click bit", String.valueOf(click));
+                    if (click == 0) {
+                        showInterstitial();
+                        click++;
+                    }
+                }
+                else {
+requestPermission();
                 }
             }
         });
@@ -176,7 +190,6 @@ else
         });
 
 
-
         unliked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,16 +201,15 @@ else
                     click++;
                 }
                 Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
-                if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
+                if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")) {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.liked));
 
-                    like(grid_model,0);
+                    like(grid_model, 0);
                     grid_model.setismyfavourite("1");
 
-                }
-                else if (grid_model.getIsmyfavourite().equalsIgnoreCase("1")) {
+                } else if (grid_model.getIsmyfavourite().equalsIgnoreCase("1")) {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.unliked));
-                    like(grid_model,1);
+                    like(grid_model, 1);
                     grid_model.setismyfavourite("0");
                 }
             }
@@ -219,13 +231,12 @@ else
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                Grid_model grid_model=grid_models.get(viewPager.getCurrentItem());
-                if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")){
+                Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
+                if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")) {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.unliked));
 
 //                    like(grid_model,0);
-                }
-                else if (grid_model.getIsmyfavourite().equalsIgnoreCase("1")) {
+                } else if (grid_model.getIsmyfavourite().equalsIgnoreCase("1")) {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.liked));
 //                    like(grid_model,1);
                 }
@@ -311,8 +322,8 @@ else
 //                Settings.Secure.ANDROID_ID);
 
 //        Toast.makeText(this, "in likes ", Toast.LENGTH_SHORT).show();
-        final String url = "http://themeelite.com/ananta/likes?image_id="+ grid_model.getId()+"&device_id="+ Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID)+"&bit="+i;
+        final String url = "http://themeelite.com/ananta/likes?image_id=" + grid_model.getId() + "&device_id=" + Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID) + "&bit=" + i;
         Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -431,9 +442,74 @@ else
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent i=new Intent(getApplicationContext(),MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+    }
+
+    private static final int PERMISSION_REQUEST_CODE = 200;
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (locationAccepted && cameraAccepted) {
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } else {
+
+                        Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE},
+                                                            PERMISSION_REQUEST_CODE);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+
+                    }
+                }
+
+
+                break;
+        }
+    }
+
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(Preview_daily.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 }
 

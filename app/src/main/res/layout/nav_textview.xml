@@ -23,7 +23,7 @@ android:layout_marginLeft="15dp"
         android:padding="6dp"
         android:text="asda"
         android:textStyle="bold"
-        android:textColor="#4B4B5C"
+        android:textColor="#ffffff"
         android:textSize="15dp">
 
     </TextView>
