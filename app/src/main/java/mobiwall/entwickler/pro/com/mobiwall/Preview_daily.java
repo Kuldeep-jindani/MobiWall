@@ -2,14 +2,18 @@ package mobiwall.entwickler.pro.com.mobiwall;
 
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -368,19 +372,21 @@ requestPermission();
                     .setDimAmount(0.5f)
                     .show();
         }
-
+        String PATH;
+        String targetFileName;
         @Override
         protected Long doInBackground(String... aurl) {
             int count;
+
             try {
 
                 URL url = new URL((String) aurl[0]);
                 URLConnection conexion = url.openConnection();
                 conexion.connect();
 
-                String targetFileName = System.currentTimeMillis() + ".jpg";//Change name and subname
+                targetFileName = System.currentTimeMillis() + ".jpg";//Change name and subname
                 int lenghtOfFile = conexion.getContentLength();
-                String PATH = Environment.getExternalStorageDirectory() + "/MobiWall/";
+                PATH = Environment.getExternalStorageDirectory() + "/MobiWall/";
                 File folder = new File(PATH);
 
                /* File mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "MyDirName");
@@ -433,6 +439,22 @@ requestPermission();
                     Toast.makeText(Preview_daily.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
                 }
             }));
+
+/*            MediaScannerConnection.scanFile(getApplicationContext(), new String[] {Environment.getExternalStorageDirectory()},
+                    null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+
+                        }
+                    });*/
+
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATA,PATH + targetFileName);
+            values.put(MediaStore.Images.Media.MIME_TYPE,"image/jpeg");
+            getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+
+//            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
         }
 
 

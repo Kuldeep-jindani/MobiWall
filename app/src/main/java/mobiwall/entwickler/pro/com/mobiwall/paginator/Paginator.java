@@ -34,6 +34,7 @@ public class Paginator {
     boolean hasLoadAll = false;
     int nextPage;
 
+    int id;
     public Paginator(Context c, PullToLoadView pullToLoadView) {
         this.c = c;
         this.pullToLoadView = pullToLoadView;
@@ -107,7 +108,7 @@ public class Paginator {
 
                         String URL = "";
                 if (search.equals(""))
-                    URL = "http://themeelite.com/ananta/image_data?last_image_id=" + page * 20+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
+                    URL = "http://themeelite.com/ananta/image_data?last_image_id=" + id+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
                             Settings.Secure.ANDROID_ID);
                 else URL = "http://themeelite.com/ananta/search?search=" + search+ "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
                             Settings.Secure.ANDROID_ID);
@@ -125,18 +126,29 @@ public class Paginator {
                             JSONArray array = jsonObject.getJSONArray("photoupload");
 
 
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject o = (JSONObject) array.get(i);
-                                Grid_model grid_model = new Grid_model();
-                                grid_model.setId(o.getInt("id"));
-                                grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
+                            if (array.length()>0) {
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject o = (JSONObject) array.get(i);
+                                    Grid_model grid_model = new Grid_model();
+                                    grid_model.setId(o.getInt("id"));
+                                    id = o.getInt("id");
+                                    grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));*/
                                     grid_model.setismyfavourite(o.getString("isLiked"));
                                     grid_model.setLikes(o.getString("likes"));
 
-                                adapter.add(grid_model);
+                                    adapter.add(grid_model);
+
+                                }
+                            }else if (array.length()==0){
+                                pullToLoadView.setComplete();
+                                isLoading = false;
+                                pullToLoadView.isLoadMoreEnabled(false);
+                                hasLoadAll=true;
+                                pullToLoadView.setLoadMoreOffset(0
+                                );
 
                             }
                             pullToLoadView.setComplete();
