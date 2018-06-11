@@ -3,6 +3,9 @@ package mobiwall.entwickler.pro.com.mobiwall.paginator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import mobiwall.entwickler.pro.com.mobiwall.Preview_daily;
@@ -67,6 +72,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 .resize(300,500)
 //                .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
+
+
+
+
+
         holder.textView.setText(grid_model.getLikes());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

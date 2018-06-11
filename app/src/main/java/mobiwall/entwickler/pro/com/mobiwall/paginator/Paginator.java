@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -143,12 +144,12 @@ public class Paginator {
 
                                 }
                             }else if (array.length()==0){
-                                pullToLoadView.setComplete();
-                                isLoading = false;
                                 pullToLoadView.isLoadMoreEnabled(false);
                                 hasLoadAll=true;
-                                pullToLoadView.setLoadMoreOffset(0
-                                );
+                                pullToLoadView.setComplete();
+                                isLoading = false;
+                                nextPage = page + 1;
+
 
                             }
                             pullToLoadView.setComplete();
