@@ -167,7 +167,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private Button refresh;
     private CheckBox startVideoAdsMuted;
     private TextView videoStatus;
-    private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
+   /* private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
         // Get the video controller for the ad. One will always be provided, even if the ad doesn't
         // have a video asset.
         VideoController vc = nativeAd.getVideoController();
@@ -262,14 +262,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
 
         adView.setNativeAd(nativeAd);
-    }
+    }*/
 
     /**
      * Creates a request for a new native ad based on the boolean parameters and calls the
      * corresponding "populate" method when one is successfully returned.
      *
      */
-    private void refreshAd() {
+  /*  private void refreshAd() {
         refresh.setEnabled(false);
 
         AdLoader.Builder builder = new AdLoader.Builder(c, "ca-app-pub-3940256099942544/2247696110");
@@ -313,6 +313,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         adLoader.loadAd(new AdRequest.Builder().build());
 
         videoStatus.setText("");
-    }
+    }*/
 
 }

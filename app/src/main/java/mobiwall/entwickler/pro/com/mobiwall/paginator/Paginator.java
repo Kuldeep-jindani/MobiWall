@@ -80,6 +80,7 @@ public class Paginator {
             public void onRefresh() {
                 adapter.clear();
                 hasLoadAll = false;
+                id=0;
                 LoadData(0);
             }
 
@@ -126,6 +127,7 @@ public class Paginator {
 
                             JSONArray array = jsonObject.getJSONArray("photoupload");
 
+                            int count=array.length()/10;
 
                             if (array.length()>0) {
                                 for (int i = 0; i < array.length(); i++) {
