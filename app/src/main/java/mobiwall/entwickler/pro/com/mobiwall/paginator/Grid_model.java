@@ -14,6 +14,16 @@ public class Grid_model implements Serializable {
     private String ismyliked;
     private String img_url;
     private String category_id;
+    private int ViewType;
+
+    public int getViewType() {
+        return ViewType;
+    }
+
+    public void setViewType(int viewType) {
+        ViewType = viewType;
+    }
+
     private String favourite_no;
     private String type;
 

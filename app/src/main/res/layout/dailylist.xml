@@ -10,6 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <FrameLayout
+            android:id="@+id/image_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <ImageView
             android:id="@+id/img_gride"
             android:layout_width="match_parent"
@@ -19,9 +23,6 @@
             android:scaleType="centerCrop"
 
             />
-
-
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp">
@@ -58,6 +59,9 @@ android:layout_marginRight="10dp"
                 </LinearLayout>
 
             </RelativeLayout>
+        </FrameLayout>
+
     </FrameLayout>
+
 
 </android.support.v7.widget.CardView>

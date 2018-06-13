@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,12 +51,15 @@ import mobiwall.entwickler.pro.com.mobiwall.R;
  * Created by Payal on 4/9/2018.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>  {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ImageViewHolder>  {
 
     private Context c;
     JSONArray array;
     FragmentManager fragmentManager;
     ArrayList<Grid_model> grid_models;
+
+    int TYPE_IMG=1;
+    int TYPE_AD=0;
 
 
     public MyRecyclerViewAdapter(Context c, ArrayList<Grid_model> grid_models) {
@@ -74,41 +78,58 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     @Override
-    public MyRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        Grid_model grid_model=grid_models.get(position);
+        if (grid_model.getViewType()==1){
+            return TYPE_AD;
+        }
+            return TYPE_IMG;
 
+    }
+
+    @Override
+    public MyRecyclerViewAdapter.ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+//     if (viewType==TYPE_AD){
+/*         LayoutInflater inflater = LayoutInflater.from(c);
+         View view = inflater.inflate(R.layout.dailylist, parent, false);
+         return new MyRecyclerViewAdapter.AdViewHolder(view);
+     }*/
         LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.dailylist, parent, false);
-        return new MyRecyclerViewAdapter.ViewHolder(view);
+        return new MyRecyclerViewAdapter.ImageViewHolder(view);
 
     }
 
     @SuppressLint("ResourceType")
     @Override
-    public void onBindViewHolder(@NonNull final MyRecyclerViewAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final MyRecyclerViewAdapter.ImageViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Grid_model grid_model = grid_models.get(position);
-        Picasso.get().load(grid_model.getImg_url())
+      /*  if (getItemViewType(position) == TYPE_AD) {
+
+        } else if(getItemViewType(position)==){
+*/
+            Picasso.get().load(grid_model.getImg_url())
 //                .placeholder(c.getResources().getColor(R.color.colorBlack))
-                .resize(300,500)
+                    .resize(300, 500)
 //                .error(R.drawable.ic_launcher_background)
-                .into(holder.imageView);
+                    .into(holder.imageView);
 
 
-
-
-
-        holder.textView.setText(grid_model.getLikes());
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),Preview_daily.class);
+            holder.textView.setText(grid_model.getLikes());
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), Preview_daily.class);
 //                intent.putExtra("img_url", grid_model.getImg_url());
 
-                intent.putExtra("grid",grid_models);
-                intent.putExtra("pos",position);
-                c.startActivity(intent);
-            }
-        });
+                    intent.putExtra("grid", grid_models);
+                    intent.putExtra("pos", position);
+                    c.startActivity(intent);
+                }
+            });
 
+//        }
     }
 
     @Override
@@ -151,16 +172,30 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
         CardView gride_wallpaper;
+        RelativeLayout ads_layout;
+        FrameLayout image_layout;
 
-        private ViewHolder(View v){
+        private ImageViewHolder(View v){
             super(v);
             imageView = v.findViewById(R.id.img_gride);
             textView = v.findViewById(R.id.count);
+//            ads_layout= v.findViewById(R.id.ads_layout);
+            image_layout= v.findViewById(R.id.image_layout);
             gride_wallpaper = v.findViewById(R.id.gride_wallpaper);
+        }
+
+    }
+
+    public class AdViewHolder extends RecyclerView.ViewHolder {
+
+
+        private AdViewHolder(View v){
+            super(v);
+
         }
 
     }
