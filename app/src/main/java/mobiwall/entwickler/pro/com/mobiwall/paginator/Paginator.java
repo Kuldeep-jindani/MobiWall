@@ -41,11 +41,26 @@ public class Paginator {
         this.pullToLoadView = pullToLoadView;
 
         rv = pullToLoadView.getRecyclerView();
-        rv.setLayoutManager(new GridLayoutManager(c, 2));
+        final GridLayoutManager layoutManager=new GridLayoutManager(c, 2);
+        rv.setLayoutManager(layoutManager);
+
+
 
         adapter = new MyRecyclerViewAdapter(c, new ArrayList<Grid_model>());
         rv.setAdapter(adapter);
-
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (adapter.getItemViewType(position)) {
+                    case 1:
+                        return 1;
+                    case 0:
+                        return layoutManager.getSpanCount();
+                    default:
+                        return -1;
+                }
+            }
+        });
         initializePagination();
     }
 
@@ -130,21 +145,36 @@ public class Paginator {
                             int count=array.length()/10;
 
                             if (array.length()>0) {
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject o = (JSONObject) array.get(i);
-                                    Grid_model grid_model = new Grid_model();
-                                    grid_model.setId(o.getInt("id"));
-                                    id = o.getInt("id");
-                                    grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
+                                for (int i = 0; i <= array.length(); i++) {
+                                    if (i==array.length()){
+                                        Grid_model grid_model=new Grid_model();
+                                        grid_model.setViewType(1);
+                                        adapter.add(grid_model);
+
+                                    }else {
+                                        JSONObject o = (JSONObject) array.get(i);
+                                        Grid_model grid_model = new Grid_model();
+                                        grid_model.setId(o.getInt("id"));
+                                        grid_model.setViewType(2);
+                                        id = o.getInt("id");
+                                        grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));*/
-                                    grid_model.setismyfavourite(o.getString("isLiked"));
-                                    grid_model.setLikes(o.getString("likes"));
+                                        grid_model.setismyfavourite(o.getString("isLiked"));
+                                        grid_model.setLikes(o.getString("likes"));
 
-                                    adapter.add(grid_model);
+                                        adapter.add(grid_model);
+                                    }
 
                                 }
+                              /*  for (int i=0;i<array.length()+count;i=i+10){
+
+                                    Grid_model grid_model=new Grid_model();
+                                    grid_model.setViewType(1);
+                                    adapter.add(grid_model);
+
+                                }*/
                             }else if (array.length()==0){
                                 pullToLoadView.isLoadMoreEnabled(false);
                                 hasLoadAll=true;

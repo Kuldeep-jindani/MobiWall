@@ -40,11 +40,26 @@ public class Paginator_popular {
         this.pullToLoadView = pullToLoadView;
 
         rv = pullToLoadView.getRecyclerView();
-        rv.setLayoutManager(new GridLayoutManager(c, 2));
+        final GridLayoutManager layoutManager=new GridLayoutManager(c, 2);
+        rv.setLayoutManager(layoutManager);
+
+
 
         adapter = new MyRecyclerViewAdapter(c, new ArrayList<Grid_model>());
         rv.setAdapter(adapter);
-
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (adapter.getItemViewType(position)) {
+                    case 1:
+                        return 1;
+                    case 0:
+                        return layoutManager.getSpanCount();
+                    default:
+                        return -1;
+                }
+            }
+        });
         initializePagination();
     }
 
@@ -108,47 +123,60 @@ public class Paginator_popular {
 
                         String URL = "";
                 if (search.equals(""))
-                    URL = "http://themeelite.com/ananta/popular_images?last_image_id=" + id + "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
-                else
-                    URL = "http://themeelite.com/ananta/search?search=" + search + "&device_id=" + Settings.Secure.getString(c.getContentResolver(),
+                    URL = "http://themeelite.com/ananta/popular_images?device_id=" + Settings.Secure.getString(c.getContentResolver(),
                             Settings.Secure.ANDROID_ID);
 
-                Log.e("Grid service url", URL);
+                Log.e("Popular service url", URL);
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         try {
-                            Log.e("page IN ASYNC TASK paginator", response);
+                            Log.e("page IN ASYNC TASK popular", response);
                             JSONObject jsonObject = new JSONObject(response);
 
-                            JSONArray array = jsonObject.getJSONArray("photoupload");
+                            JSONArray array = jsonObject.getJSONArray("data");
 
-                            if (array.length() > 0) {
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject o = (JSONObject) array.get(i);
-                                    Grid_model grid_model = new Grid_model();
-                                    grid_model.setId(o.getInt("id"));
-                                    id = o.getInt("id");
-                                    grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
+                            if (array.length()>0) {
+                                for (int i = 0; i <= array.length(); i++) {
+                                    if (i==array.length()){
+                                        Grid_model grid_model=new Grid_model();
+                                        grid_model.setViewType(1);
+                                        adapter.add(grid_model);
+
+                                    }else {
+                                        JSONObject o = (JSONObject) array.get(i);
+                                        Grid_model grid_model = new Grid_model();
+                                        grid_model.setId(o.getInt("id"));
+                                        grid_model.setViewType(2);
+                                        id = o.getInt("id");
+                                        grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
                                    /* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
                                     grid_model.settype(o.getString("type"));*/
-                                    grid_model.setismyfavourite(o.getString("isLiked"));
-                                    grid_model.setLikes(o.getString("likes"));
+                                        grid_model.setismyfavourite(o.getString("isLiked"));
+                                        grid_model.setLikes(o.getString("likes"));
 
-                                    adapter.add(grid_model);
+                                        adapter.add(grid_model);
+                                    }
 
                                 }
-                            }else {
-                                pullToLoadView.setComplete();
-                                pullToLoadView.isLoadMoreEnabled(false);
+                              /*  for (int i=0;i<array.length()+count;i=i+10){
 
+                                    Grid_model grid_model=new Grid_model();
+                                    grid_model.setViewType(1);
+                                    adapter.add(grid_model);
+
+                                }*/
+                            }else if (array.length()==0){
+                                pullToLoadView.isLoadMoreEnabled(false);
+                                hasLoadAll=true;
                                 pullToLoadView.setComplete();
                                 isLoading = false;
-                                Toast.makeText(c, "", Toast.LENGTH_SHORT).show();
+                                nextPage = page + 1;
+
+
                             }
 
                             pullToLoadView.setComplete();

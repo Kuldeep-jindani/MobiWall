@@ -66,7 +66,7 @@ public class Preview_daily extends AppCompatActivity {
 
     ImageView download, set_as_bcgrnd, unliked;
 
-    int click = 0;
+//    int click = 0;
 
     InterstitialAd mInterstitialAd;
 
@@ -97,21 +97,7 @@ public class Preview_daily extends AppCompatActivity {
 else
             unliked.setImageDrawable(getDrawable(R.drawable.liked));
 */
-        mInterstitialAd = new InterstitialAd(this);
 
-        // set the ad unit ID
-        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
-
-        AdRequest adRequest1 = new AdRequest.Builder()
-                .build();
-
-        // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest1);
-        mInterstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-
-            }
-        });
 
 
         download.setOnClickListener(new View.OnClickListener() {
@@ -120,11 +106,11 @@ else
                 if (checkPermission()) {
                     Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
                     new DownloadFile(grid_model).execute(grid_model.getImg_url());
-                    Log.e("click bit", String.valueOf(click));
+                   /* Log.e("click bit", String.valueOf(click));
                     if (click == 0) {
                         showInterstitial();
                         click++;
-                    }
+                    }*/
                 }
                 else {
 requestPermission();
@@ -135,11 +121,11 @@ requestPermission();
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View view) {
-                Log.e("click bit", String.valueOf(click));
+               /* Log.e("click bit", String.valueOf(click));
                 if (click == 0) {
                     showInterstitial();
                     click++;
-                }
+                }*/
                 final Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
                 final KProgressHUD hud = KProgressHUD.create(Preview_daily.this)
                         .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -198,12 +184,12 @@ requestPermission();
             @Override
             public void onClick(View v) {
 //                Toast.makeText(Preview_daily.this, "like clicked", Toast.LENGTH_SHORT).show();
-                if (click == 0) {
+               /* if (click == 0) {
 
                     showInterstitial();
 
                     click++;
-                }
+                }*/
                 Grid_model grid_model = grid_models.get(viewPager.getCurrentItem());
                 if (grid_model.getIsmyfavourite().equalsIgnoreCase("0")) {
                     unliked.setImageDrawable(getResources().getDrawable(R.drawable.liked));
@@ -315,8 +301,24 @@ requestPermission();
     }
 
     private void showInterstitial() {
+        mInterstitialAd = new InterstitialAd(this);
+
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
+
+        AdRequest adRequest1 = new AdRequest.Builder()
+                .build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest1);
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+
+            }
+        });
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
+
         }
     }
 
@@ -463,7 +465,7 @@ requestPermission();
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+showInterstitial();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -533,5 +535,7 @@ requestPermission();
                 .create()
                 .show();
     }
+
+
 }
 

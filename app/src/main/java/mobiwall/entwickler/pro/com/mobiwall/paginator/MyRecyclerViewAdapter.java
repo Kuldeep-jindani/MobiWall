@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +26,9 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.android.gms.ads.VideoController;
 import com.google.android.gms.ads.VideoOptions;
 import com.google.android.gms.ads.formats.MediaView;
@@ -51,50 +55,61 @@ import mobiwall.entwickler.pro.com.mobiwall.R;
  * Created by Payal on 4/9/2018.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ImageViewHolder>  {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context c;
     JSONArray array;
     FragmentManager fragmentManager;
     ArrayList<Grid_model> grid_models;
 
-    int TYPE_IMG=1;
-    int TYPE_AD=0;
+    int TYPE_IMG = 1;
+    int TYPE_AD = 0;
 
+    private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110";
+    private static final String ADMOB_APP_ID = "ca-app-pub-8051557645259039~4576384540";
 
     public MyRecyclerViewAdapter(Context c, ArrayList<Grid_model> grid_models) {
         this.c = c;
-        this.grid_models=grid_models;
+        this.grid_models = grid_models;
     }
 
-    public  void  clear()
-    {
+    public void clear() {
         grid_models.clear();
     }
-    public  void add(Grid_model grid_model)
-    {
+
+    public void add(Grid_model grid_model) {
         grid_models.add(grid_model);
+        notifyDataSetChanged();
+    }
+
+    public void addList(ArrayList<Grid_model> grid_models1) {
+        for (int i = 0; i < grid_models1.size(); i++) {
+            Grid_model grid_model = grid_models1.get(i);
+            grid_models.add(grid_model);
+
+        }
+//        grid_models.
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Grid_model grid_model=grid_models.get(position);
-        if (grid_model.getViewType()==1){
+        Grid_model grid_model = grid_models.get(position);
+        if (grid_model.getViewType() == 1) {
             return TYPE_AD;
         }
-            return TYPE_IMG;
+        return TYPE_IMG;
 
     }
 
     @Override
-    public MyRecyclerViewAdapter.ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-//     if (viewType==TYPE_AD){
-/*         LayoutInflater inflater = LayoutInflater.from(c);
-         View view = inflater.inflate(R.layout.dailylist, parent, false);
-         return new MyRecyclerViewAdapter.AdViewHolder(view);
-     }*/
+        if (viewType == TYPE_AD) {
+            LayoutInflater inflater = LayoutInflater.from(c);
+            View view = inflater.inflate(R.layout.ad_unified, parent, false);
+            return new MyRecyclerViewAdapter.AdViewHolder(view);
+        }
         LayoutInflater inflater = LayoutInflater.from(c);
         View view = inflater.inflate(R.layout.dailylist, parent, false);
         return new MyRecyclerViewAdapter.ImageViewHolder(view);
@@ -103,21 +118,49 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @SuppressLint("ResourceType")
     @Override
-    public void onBindViewHolder(@NonNull final MyRecyclerViewAdapter.ImageViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Grid_model grid_model = grid_models.get(position);
-      /*  if (getItemViewType(position) == TYPE_AD) {
+        if (getItemViewType(position) == TYPE_AD) {
+            MobileAds.initialize(c, ADMOB_APP_ID);
+            final AdViewHolder holder1 = (AdViewHolder) holder;
 
-        } else if(getItemViewType(position)==){
-*/
+           /* holder1.refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View unusedView) {
+                    refreshAd(holder1);
+                }
+            });*/
+
+//            MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");
+           /* AdRequest adRequest = new AdRequest.Builder().addTestDevice("ca-app-pub-3940256099942544/6300978111").build();
+            holder1.adView.loadAd(adRequest);*/
+//            refreshAd(holder1);
+
+            AdRequest request = new AdRequest.Builder()
+
+
+                    .build();
+
+
+
+            holder1.adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    holder1.adView.setVisibility(View.VISIBLE);
+                }
+            });
+            holder1.adView.loadAd(request);
+        } else if (getItemViewType(position) == TYPE_IMG) {
+            ImageViewHolder holder1 = (ImageViewHolder) holder;
             Picasso.get().load(grid_model.getImg_url())
 //                .placeholder(c.getResources().getColor(R.color.colorBlack))
                     .resize(300, 500)
 //                .error(R.drawable.ic_launcher_background)
-                    .into(holder.imageView);
+                    .into(holder1.imageView);
 
 
-            holder.textView.setText(grid_model.getLikes());
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
+            holder1.textView.setText(grid_model.getLikes());
+            holder1.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), Preview_daily.class);
@@ -129,7 +172,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 }
             });
 
-//        }
+        }
     }
 
     @Override
@@ -170,39 +213,44 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 */
 
 
-
-
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
-        CardView gride_wallpaper;
+        LinearLayout gride_wallpaper;
         RelativeLayout ads_layout;
         FrameLayout image_layout;
 
-        private ImageViewHolder(View v){
+        private ImageViewHolder(View v) {
             super(v);
             imageView = v.findViewById(R.id.img_gride);
             textView = v.findViewById(R.id.count);
 //            ads_layout= v.findViewById(R.id.ads_layout);
-            image_layout= v.findViewById(R.id.image_layout);
+            image_layout = v.findViewById(R.id.image_layout);
             gride_wallpaper = v.findViewById(R.id.gride_wallpaper);
         }
 
     }
 
     public class AdViewHolder extends RecyclerView.ViewHolder {
+     /*   private Button refresh;
+        private CheckBox startVideoAdsMuted;
+        private TextView videoStatus;*/
+//        FrameLayout frameLayout;
 
-
-        private AdViewHolder(View v){
+        NativeExpressAdView adView;
+        private AdViewHolder(View v) {
             super(v);
-
+          /*  refresh = v.findViewById(R.id.btn_refresh);
+            startVideoAdsMuted = v.findViewById(R.id.cb_start_muted);
+            videoStatus = v.findViewById(R.id.tv_video_status);*/
+           /* frameLayout =
+                    v.findViewById(R.id.gride_wallpaper);*/
+            adView = v.findViewById(R.id.adView);
         }
 
     }
-    private Button refresh;
-    private CheckBox startVideoAdsMuted;
-    private TextView videoStatus;
-   /* private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
+
+    /*private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView, final AdViewHolder holder) {
         // Get the video controller for the ad. One will always be provided, even if the ad doesn't
         // have a video asset.
         VideoController vc = nativeAd.getVideoController();
@@ -214,8 +262,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             public void onVideoEnd() {
                 // Publishers should allow native ads to complete video playback before refreshing
                 // or replacing them with another ad in the same UI location.
-                refresh.setEnabled(true);
-                videoStatus.setText("Video status: Video playback has ended.");
+//                holder.refresh.setEnabled(true);
+//                holder.videoStatus.setText("Video status: Video playback has ended.");
                 super.onVideoEnd();
             }
         });
@@ -228,9 +276,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         if (vc.hasVideoContent()) {
             adView.setMediaView(mediaView);
             mainImageView.setVisibility(View.GONE);
-            videoStatus.setText(String.format(Locale.getDefault(),
+            *//*holder.videoStatus.setText(String.format(Locale.getDefault(),
                     "Video status: Ad contains a %.2f:1 video asset.",
-                    vc.getAspectRatio()));
+                    vc.getAspectRatio()));*//*
         } else {
             adView.setImageView(mainImageView);
             mediaView.setVisibility(View.GONE);
@@ -239,8 +287,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             List<NativeAd.Image> images = nativeAd.getImages();
             mainImageView.setImageDrawable(images.get(0).getDrawable());
 
-            refresh.setEnabled(true);
-            videoStatus.setText("Video status: Ad does not contain a video asset.");
+//            holder.refresh.setEnabled(true);
+//            holder.videoStatus.setText("Video status: Ad does not contain a video asset.");
         }
 
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
@@ -302,32 +350,29 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     /**
      * Creates a request for a new native ad based on the boolean parameters and calls the
      * corresponding "populate" method when one is successfully returned.
-     *
      */
-  /*  private void refreshAd() {
-        refresh.setEnabled(false);
+   /* private void refreshAd(final AdViewHolder holder) {
+//        holder.refresh.setEnabled(false);
 
-        AdLoader.Builder builder = new AdLoader.Builder(c, "ca-app-pub-3940256099942544/2247696110");
+        AdLoader.Builder builder = new AdLoader.Builder(c, ADMOB_AD_UNIT_ID);
 
         builder.forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
             // OnUnifiedNativeAdLoadedListener implementation.
             @Override
             public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
 
-                ViewHolder viewHolder=new ViewHolder()
-                FrameLayout frameLayout =
-                        findViewById(R.id.gride_wallpaper);
+
                 UnifiedNativeAdView adView = (UnifiedNativeAdView) LayoutInflater.from(c)
                         .inflate(R.layout.ad_unified, null);
-                populateUnifiedNativeAdView(unifiedNativeAd, adView);
-               frameLayout.removeAllViews();
-               frameLayout.addView(adView);
+                populateUnifiedNativeAdView(unifiedNativeAd, adView,holder);
+//               holder.frameLayout.removeAllViews();
+//                holder.frameLayout.addView(adView);
             }
 
         });
 
         VideoOptions videoOptions = new VideoOptions.Builder()
-                .setStartMuted(startVideoAdsMuted.isChecked())
+//                .setStartMuted(holder.startVideoAdsMuted.isChecked())
                 .build();
 
         NativeAdOptions adOptions = new NativeAdOptions.Builder()
@@ -339,7 +384,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         AdLoader adLoader = builder.withAdListener(new AdListener() {
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                refresh.setEnabled(true);
+//                holder.refresh.setEnabled(true);
                 Toast.makeText(c, "Failed to load native ad: "
                         + errorCode, Toast.LENGTH_SHORT).show();
             }
@@ -347,7 +392,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         adLoader.loadAd(new AdRequest.Builder().build());
 
-        videoStatus.setText("");
+//        holder.videoStatus.setText("");
     }*/
+
 
 }

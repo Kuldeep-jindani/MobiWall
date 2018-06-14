@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import mobiwall.entwickler.pro.com.mobiwall.paginator.Grid_model;
 import mobiwall.entwickler.pro.com.mobiwall.paginator.MyRecyclerViewAdapter;
 import mobiwall.entwickler.pro.com.mobiwall.paginator.Paginator;
+import mobiwall.entwickler.pro.com.mobiwall.paginator.Paginator_popular;
+import mobiwall.entwickler.pro.com.mobiwall.paginator.Paginator_search;
 import mobiwall.entwickler.pro.com.mobiwall.paginator_hot.Paginator_hot;
 
 
@@ -39,7 +41,7 @@ import mobiwall.entwickler.pro.com.mobiwall.paginator_hot.Paginator_hot;
  * A simple {@link Fragment} subclass.
  */
 public class HotFragment extends Fragment {
-    RecyclerView pullToLoadView;
+    PullToLoadView pullToLoadView;
 
 
     public HotFragment() {
@@ -50,7 +52,8 @@ public class HotFragment extends Fragment {
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
         if (visible) {
-           apiPopular();
+//           apiPopular();
+            new Paginator_popular(getContext(),pullToLoadView);
         }
     }
 
@@ -63,23 +66,22 @@ public class HotFragment extends Fragment {
 
         pullToLoadView = view.findViewById(R.id.wallpaper_grid_hot);
 
-//        new Paginator(getContext(),pullToLoadView);
+        new Paginator_popular(getContext(),pullToLoadView);
 
-        pullToLoadView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-apiPopular();
+//apiPopular();
 
        /* AdView adView = view.findViewById(R.id.adView);
         MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("ca-app-pub-7796828333997958/4152584076").build();
         adView.loadAd(adRequest);*/
         AdView adView = view.findViewById(R.id.adView);
-        MobileAds.initialize(getContext(),"ca-app-pub-8051557645259039/3121786353");
+        MobileAds.initialize(getContext(),"ca-app-pub-3940256099942544/6300978111");
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
         return  view;
     }
 
-    public void apiPopular(){
+   /* public void apiPopular(){
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         @SuppressLint("HardwareIds") //String URL="http://www.charmhdwallpapers.com/wallpaper/imagelist?page_size=20&last_item_id=0&device_uid=c699fde86c24b1c&category_id=&category_type=Daily&color_code=&count=0";
 
@@ -102,22 +104,48 @@ apiPopular();
 
                         JSONArray array = jsonObject.getJSONArray("data");
 
+                    if (array.length()>0) {
 
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject o = (JSONObject) array.get(i);
-                        Grid_model grid_model = new Grid_model();
-                        grid_model.setId(o.getInt("id"));
-                        grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
-                                   /* grid_model.setcategory_id(o.getString("category_id"));
+                        for (int i = 0; i <= array.length(); i++) {
+                            if (i == array.length()) {
+                                Grid_model grid_model = new Grid_model();
+                                grid_model.setViewType(1);
+                                grid_models.add(grid_model);
+
+                            } else {
+                                JSONObject o = (JSONObject) array.get(i);
+                                Grid_model grid_model = new Grid_model();
+                                grid_model.setId(o.getInt("id"));
+                                grid_model.setimg_url("http://themeelite.com/ananta/public/uploads/" + o.getString("photo"));
+                                   *//* grid_model.setcategory_id(o.getString("category_id"));
                                     grid_model.setfavourite_no(o.getString("favourite_no"));
-                                    grid_model.settype(o.getString("type"));*/
-                        grid_model.setismyfavourite(o.getString("isLiked"));
-                        grid_model.setLikes(o.getString("likes"));
+                                    grid_model.settype(o.getString("type"));*//*
+                                grid_model.setismyfavourite(o.getString("isLiked"));
+                                grid_model.setLikes(o.getString("likes"));
 
-                        grid_models.add(grid_model);
+                                grid_models.add(grid_model);
 
+                            }
+                        }
                     }
-                    MyRecyclerViewAdapter  adapter = new MyRecyclerViewAdapter(getContext(),grid_models);
+                    int count=array.length()/20;
+                    final GridLayoutManager layoutManager=new GridLayoutManager(getContext(), 2);
+                    pullToLoadView.setLayoutManager(layoutManager);
+
+                    final MyRecyclerViewAdapter  adapter = new MyRecyclerViewAdapter(getContext(),grid_models);
+                    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int position) {
+                            switch (adapter.getItemViewType(position)) {
+                                case 1:
+                                    return 1;
+                                case 0:
+                                    return layoutManager.getSpanCount();
+                                default:
+                                    return -1;
+                            }
+                        }
+                    });
 pullToLoadView.setAdapter(adapter);
 
                 } catch (JSONException e) {
@@ -133,6 +161,6 @@ pullToLoadView.setAdapter(adapter);
         });
 
         requestQueue.add(stringRequest);
-    }
+    }*/
 
 }
