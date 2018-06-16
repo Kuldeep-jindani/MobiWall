@@ -61,7 +61,7 @@ public class Preview_daily extends AppCompatActivity {
     Button btn_set;
     ImageView imageView;
     ViewPager viewPager;
-    String App_ID = "ca-app-pub-3940256099942544/6300978111";
+    String App_ID = "ca-app-pub-8051557645259039/3121786353";
     //AdView adView;
 
     ImageView download, set_as_bcgrnd, unliked;
@@ -98,7 +98,21 @@ else
             unliked.setImageDrawable(getDrawable(R.drawable.liked));
 */
 
+        mInterstitialAd = new InterstitialAd(this);
 
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
+
+        AdRequest adRequest1 = new AdRequest.Builder()
+                .build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest1);
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+
+            }
+        });
 
         download.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,7 +258,7 @@ requestPermission();
         });
 /*
         AdView adView = findViewById(R.id.adView);
-        MobileAds.initialize(getApplicationContext(),"ca-app-pub-3940256099942544/6300978111");
+        MobileAds.initialize(getApplicationContext(),"ca-app-pub-8051557645259039/3121786353");
         AdRequest adRequest = new AdRequest.Builder().build();
        adView.loadAd(adRequest);*/
 
@@ -301,21 +315,7 @@ requestPermission();
     }
 
     private void showInterstitial() {
-        mInterstitialAd = new InterstitialAd(this);
 
-        // set the ad unit ID
-        mInterstitialAd.setAdUnitId(getString(R.string.interstial));
-
-        AdRequest adRequest1 = new AdRequest.Builder()
-                .build();
-
-        // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest1);
-        mInterstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-
-            }
-        });
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
 
@@ -466,9 +466,9 @@ requestPermission();
     public void onBackPressed() {
         super.onBackPressed();
 showInterstitial();
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+      /*  Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(i);
+        startActivity(i);*/
     }
 
     private static final int PERMISSION_REQUEST_CODE = 200;

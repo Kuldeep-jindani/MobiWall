@@ -132,7 +132,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             });*/
 
 //            MobileAds.initialize(getContext(),"ca-app-pub-7796828333997958/4152584076");
-           /* AdRequest adRequest = new AdRequest.Builder().addTestDevice("ca-app-pub-3940256099942544/6300978111").build();
+           /* AdRequest adRequest = new AdRequest.Builder().addTestDevice("ca-app-pub-8051557645259039/3121786353").build();
             holder1.adView.loadAd(adRequest);*/
 //            refreshAd(holder1);
 

@@ -46,7 +46,7 @@ PullToLoadView pullToLoadView;
 
 
         AdView adView = view.findViewById(R.id.adView);
-        MobileAds.initialize(getContext(),"ca-app-pub-3940256099942544/6300978111");
+        MobileAds.initialize(getContext(),"ca-app-pub-8051557645259039/3121786353");
         AdRequest adRequest = new AdRequest.Builder().build();
        adView.loadAd(adRequest);
 

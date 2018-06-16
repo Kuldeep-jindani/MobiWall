@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -49,6 +50,8 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.File;
+
 import mobiwall.entwickler.pro.com.mobiwall.Bean.DrawerModel;
 import mobiwall.entwickler.pro.com.mobiwall.firebase.Config;
 import mobiwall.entwickler.pro.com.mobiwall.firebase.NotificationUtils;
@@ -57,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private TextView mTextMessage, txt;
     ImageView imageView, img_search;
-    String App_ID = "ca-app-pub-3940256099942544/6300978111";
-    String App_ID_Interstitialad = "ca-app-pub-3940256099942544/1033173712";
+    String App_ID = "ca-app-pub-8051557645259039/3121786353";
+    String App_ID_Interstitialad = "ca-app-pub-8051557645259039/5056564996";
     AdView adView;
     ImageView edt_search, go, cancel_icon;
     InterstitialAd mInterstitialAd;
@@ -381,15 +384,43 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     startActivity(sendIntent);
                     break;
                 case 4:
-                    SharingToSocialMedia("com.facebook.katana");
+//                    SharingToSocialMedia("com.facebook.katana");
+                    Intent browserIntentfb = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/mobiwallapp/"));
+                    startActivity(browserIntentfb);
                     break;
 
                 case 5:
-                    SharingToSocialMedia("com.twitter.android");
+//                    SharingToSocialMedia("com.twitter.android");
+                    Intent browserIntentin = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/mobiwall1"));
+                    startActivity(browserIntentin);
                     break;
 
                 case 6:
-                    SharingToSocialMedia("com.instagram.android");
+//                    SharingToSocialMedia("com.instagram.android");
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/mobiwallapp/"));
+                    startActivity(browserIntent);
+                  /*  String type = "image/*";
+                    String filename = "/myPhoto.jpg";
+                    String mediaPath = Environment.getExternalStorageDirectory() + filename;
+
+
+
+                    // Create the new Intent using the 'Send' action.
+                    Intent share = new Intent(Intent.ACTION_SEND);
+
+                    // Set the MIME type
+                    share.setType(type);
+
+                    // Create the URI from the media
+                    File media = new File(mediaPath);
+                    Uri ur = Uri.fromFile(media);
+
+                    // Add the URI to the Intent.
+                    share.putExtra(Intent.EXTRA_STREAM, ur);
+
+                    // Broadcast the Intent.
+                    startActivity(Intent.createChooser(share, "Share to"));*/
+
                     break;
 
                 case 7:

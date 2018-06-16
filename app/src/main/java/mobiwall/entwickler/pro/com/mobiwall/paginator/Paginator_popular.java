@@ -124,7 +124,7 @@ public class Paginator_popular {
                         String URL = "";
                 if (search.equals(""))
                     URL = "http://themeelite.com/ananta/popular_images?device_id=" + Settings.Secure.getString(c.getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
+                            Settings.Secure.ANDROID_ID)+"&last_image_id="+id;
 
                 Log.e("Popular service url", URL);
 
@@ -136,7 +136,7 @@ public class Paginator_popular {
                             Log.e("page IN ASYNC TASK popular", response);
                             JSONObject jsonObject = new JSONObject(response);
 
-                            JSONArray array = jsonObject.getJSONArray("data");
+                            JSONArray array = jsonObject.getJSONArray("photoupload");
 
                             if (array.length()>0) {
                                 for (int i = 0; i <= array.length(); i++) {

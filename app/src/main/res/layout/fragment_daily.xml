@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:id="@+id/adView"
             ads:adSize = "BANNER"
-            ads:adUnitId = "ca-app-pub-3940256099942544/6300978111"
+            ads:adUnitId = "ca-app-pub-8051557645259039/3121786353"
             android:layout_gravity="center"
             android:layout_height="wrap_content">
 
