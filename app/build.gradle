@@ -6,8 +6,8 @@ android {
         applicationId "mobiwall.entwickler.pro.com.mobiwall"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 4
-        versionName "0.4"
+        versionCode 5
+        versionName "1.1"
         multiDexEnabled true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
